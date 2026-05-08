@@ -1,40 +1,38 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Code2, MessageSquare, Hash } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="border-t-[3px] border-black bg-gray-50 pt-16 pb-8">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-10 mb-12">
-          <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 bg-purple-500 border-[2.5px] border-black rounded-lg flex items-center justify-center">
-                <span className="text-white font-black text-lg">B</span>
+    <footer className="border-t-[4px] border-black bg-white pt-24 pb-12 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="grid lg:grid-cols-5 gap-16 mb-20">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-600 border-[3px] border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0_0_#000]">
+                <span className="text-white font-black text-xl">B</span>
               </div>
-              <span className="font-black text-2xl">BitStream</span>
+              <span className="font-black text-3xl tracking-tighter">BitStream</span>
             </div>
-            <p className="text-sm font-semibold text-gray-600 leading-relaxed">
-              MIT Licensed. Built for the Decentralized Web.
+            <p className="text-lg font-bold text-gray-500 leading-relaxed max-w-sm">
+              The high-performance protocol for the decentralized web. Built for engineers.
             </p>
-            <div className="bg-green-500 border-[2px] border-black px-3 py-1.5 rounded-lg inline-block"
-              style={{ boxShadow: '3px 3px 0 0 #0F172A' }}>
-              <span className="font-black text-white text-[9px] tracking-wider uppercase">Open Source</span>
+            <div className="flex items-center gap-4">
+              <div className="bg-green-400 border-[2.5px] border-black px-4 py-1.5 rounded-xl inline-block shadow-[4px_4px_0_0_#000]">
+                <span className="font-black text-black text-[10px] tracking-widest uppercase">Open Source</span>
+              </div>
             </div>
           </div>
 
           <div>
-            <h4 className="font-black text-sm mb-3 uppercase">Resources</h4>
-            <div className="space-y-2">
+            <h4 className="font-black text-xs mb-6 uppercase tracking-[0.2em] text-gray-400">Resources</h4>
+            <div className="space-y-4">
               {[
-                { name: 'Docs', href: '/docs' },
-                { name: 'Features', href: '/features' },
-                { name: 'Pricing', href: '/pricing' },
-                { name: 'About', href: '/about' },
-                { name: 'Blog', href: '/blog' },
-                { name: 'Contact', href: '/contact' }
+                { name: 'Documentation', href: '/docs' },
+                { name: 'Core Features', href: '/features' },
+                { name: 'Pricing Plans', href: '/pricing' },
+                { name: 'Engineering Blog', href: '/blog' }
               ].map(link => (
-                <Link key={link.name} to={link.href} className="block text-sm font-semibold text-gray-600 hover:text-black">
+                <Link key={link.name} to={link.href} className="block text-base font-black text-gray-600 hover:text-purple-600 transition-colors">
                   {link.name}
                 </Link>
               ))}
@@ -42,30 +40,50 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-black text-sm mb-3 uppercase">Connect</h4>
-            <div className="flex gap-2">
+            <h4 className="font-black text-xs mb-6 uppercase tracking-[0.2em] text-gray-400">Company</h4>
+            <div className="space-y-4">
               {[
-                { icon: Code2, color: 'bg-purple-500' },
+                { name: 'About Us', href: '/about' },
+                { name: 'Contact Team', href: '/contact' },
+                { name: 'Legal / Privacy', href: '#' },
+                { name: 'Status Page', href: '#' }
+              ].map(link => (
+                <Link key={link.name} to={link.href} className="block text-base font-black text-gray-600 hover:text-purple-600 transition-colors">
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="font-black text-xs mb-6 uppercase tracking-[0.2em] text-gray-400">Connect</h4>
+            <div className="flex gap-4">
+              {[
+                { icon: Code2, color: 'bg-purple-600' },
                 { icon: MessageSquare, color: 'bg-green-500' },
-                { icon: Hash, color: 'bg-cyan-500' }
+                { icon: Hash, color: 'bg-cyan-400' }
               ].map((s, i) => (
                 <a
                   key={i}
                   href="#"
-                  className={`w-10 h-10 ${s.color} border-[2px] border-black rounded-lg flex items-center justify-center hover:scale-110 transition-transform`}
-                  style={{ boxShadow: '0 3px 0 0 #0F172A' }}
+                  className={`w-12 h-12 ${s.color} border-[3px] border-black rounded-2xl flex items-center justify-center hover:-translate-y-1 hover:-translate-x-1 transition-all shadow-[4px_4px_0_0_#000] hover:shadow-[8px_8px_0_0_#000]`}
                 >
-                  <s.icon size={18} strokeWidth={2.5} className="text-white" />
+                  <s.icon size={22} strokeWidth={3} className="text-white" />
                 </a>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="pt-6 border-t-[2px] border-black text-center">
-          <p className="text-xs font-semibold text-gray-500">
-            © {new Date().getFullYear()} BitStream Platform. All rights reserved.
+        <div className="pt-10 border-t-[3px] border-black flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-sm font-black text-gray-400 uppercase tracking-widest">
+            © {new Date().getFullYear()} BitStream Protocol. Distributed System.
           </p>
+          <div className="flex gap-8 text-[10px] font-black uppercase tracking-widest text-gray-300">
+            <span className="hover:text-black cursor-pointer transition-colors">Privacy Policy</span>
+            <span className="hover:text-black cursor-pointer transition-colors">Terms of Service</span>
+            <span className="hover:text-black cursor-pointer transition-colors">Security Registry</span>
+          </div>
         </div>
       </div>
     </footer>

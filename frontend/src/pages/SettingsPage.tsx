@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { User, Bell, Shield, CreditCard, Layout, Upload, Check, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar';
 
 const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState('Profile');

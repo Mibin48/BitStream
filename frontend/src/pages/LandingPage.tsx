@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
   MessageSquare, Video, Calendar, Headphones,
