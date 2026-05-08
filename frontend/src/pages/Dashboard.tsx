@@ -9,7 +9,7 @@ const Dashboard = () => {
         {/* Workspace Header */}
         <div className="p-4 border-b-[3px] border-black">
           <button className="w-full flex items-center justify-between p-3 border-[2.5px] border-black rounded-xl hover:bg-gray-50 transition-colors"
-                  style={{ boxShadow: '0 3px 0 0 #0F172A' }}>
+            style={{ boxShadow: '0 3px 0 0 #0F172A' }}>
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-purple-500 border-[2px] border-black rounded-lg flex items-center justify-center">
                 <span className="text-white font-black text-sm">A</span>
@@ -30,13 +30,12 @@ const Dashboard = () => {
             { icon: Folder, label: 'Files' },
             { icon: Users, label: 'Team' }
           ].map((item, i) => (
-            <button 
+            <button
               key={i}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-bold text-sm transition-all ${
-                item.active 
-                  ? 'bg-purple-500 text-white border-[2px] border-black' 
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-bold text-sm transition-all ${item.active
+                  ? 'bg-purple-500 text-white border-[2px] border-black'
                   : 'text-gray-700 hover:bg-gray-100 border-[2px] border-transparent hover:border-black hover:-translate-y-0.5'
-              }`}
+                }`}
               style={item.active ? { boxShadow: '2px 2px 0 0 #0F172A' } : {}}
             >
               <div className="flex items-center gap-3">
@@ -56,7 +55,7 @@ const Dashboard = () => {
             <div className="flex items-center justify-between px-3 mb-3">
               <span className="text-xs font-black text-gray-500 uppercase tracking-wider">Channels</span>
               <button className="w-6 h-6 border-[2px] border-black rounded flex items-center justify-center hover:bg-gray-100 transition-colors"
-                      style={{ boxShadow: '2px 2px 0 0 #0F172A' }}>
+                style={{ boxShadow: '2px 2px 0 0 #0F172A' }}>
                 <Plus size={14} strokeWidth={3} />
               </button>
             </div>
@@ -73,7 +72,7 @@ const Dashboard = () => {
         {/* User Profile (Bottom) */}
         <div className="p-4 border-t-[3px] border-black bg-gray-50">
           <Link to="/settings" className="w-full flex items-center gap-3 p-2.5 bg-white border-[2.5px] border-black rounded-xl hover:-translate-y-0.5 transition-transform"
-                style={{ boxShadow: '0 3px 0 0 #0F172A' }}>
+            style={{ boxShadow: '0 3px 0 0 #0F172A' }}>
             <div className="relative">
               <div className="w-10 h-10 bg-green-500 border-[2px] border-black rounded-lg flex items-center justify-center">
                 <span className="text-white font-black text-sm">JD</span>
@@ -94,14 +93,14 @@ const Dashboard = () => {
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="bg-white border-[3px] border-black rounded-2xl p-8 mb-8"
-               style={{ boxShadow: '8px 8px 0 0 #0F172A' }}>
+            style={{ boxShadow: '8px 8px 0 0 #0F172A' }}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8">
               <div>
                 <h1 className="font-black text-4xl mb-2">Good morning, John! 👋</h1>
                 <p className="text-lg text-gray-600 font-medium">Here's what's happening today</p>
               </div>
               <button className="bg-green-500 border-[3px] border-black px-6 py-3.5 rounded-xl font-black text-white hover:bg-green-600 hover:-translate-y-1 transition-all whitespace-nowrap"
-                      style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                 Start meeting
               </button>
             </div>
@@ -115,7 +114,7 @@ const Dashboard = () => {
                 { label: 'Files', value: '24', color: 'bg-pink-100', textColor: 'text-pink-700' }
               ].map((stat, i) => (
                 <div key={i} className={`${stat.color} border-[2.5px] border-black rounded-xl p-5 hover:-translate-y-1 transition-transform cursor-pointer`}
-                     style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                   <div className={`font-black text-3xl ${stat.textColor} mb-1`}>{stat.value}</div>
                   <div className="text-sm font-bold text-gray-700">{stat.label}</div>
                 </div>
@@ -125,12 +124,12 @@ const Dashboard = () => {
 
           {/* Recent Activity Feed */}
           <div className="bg-white border-[3px] border-black rounded-2xl p-8"
-               style={{ boxShadow: '8px 8px 0 0 #0F172A' }}>
+            style={{ boxShadow: '8px 8px 0 0 #0F172A' }}>
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-black text-2xl">Recent Activity</h2>
               <button className="text-sm font-bold text-purple-600 hover:underline">View all</button>
             </div>
-            
+
             <div className="space-y-4">
               {/* Activity items */}
               {[
@@ -168,7 +167,7 @@ const Dashboard = () => {
               <Plus size={16} strokeWidth={3} />
             </button>
           </div>
-          
+
           <div className="space-y-3">
             {/* Meeting cards */}
             {[
@@ -177,7 +176,7 @@ const Dashboard = () => {
               { time: '4:00 PM', title: 'Team Standup', attendees: 8, color: 'bg-cyan-200' }
             ].map((meeting, i) => (
               <div key={i} className={`${meeting.color} border-[2.5px] border-black rounded-xl p-4 hover:-translate-y-1 transition-transform cursor-pointer`}
-                   style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                 <div className="font-black text-xs uppercase tracking-wider mb-2 bg-white inline-block px-2 py-0.5 rounded border-[2px] border-black">{meeting.time}</div>
                 <div className="font-black text-lg mb-2">{meeting.title}</div>
                 <div className="flex items-center justify-between">
@@ -202,7 +201,7 @@ const Dashboard = () => {
           </div>
 
           <button className="w-full bg-white border-[2.5px] border-black rounded-xl py-3 mt-4 font-black text-sm hover:bg-gray-50 transition-colors"
-                  style={{ boxShadow: '2px 2px 0 0 #0F172A' }}>
+            style={{ boxShadow: '2px 2px 0 0 #0F172A' }}>
             View full calendar <ArrowRight size={16} strokeWidth={4} className="inline-block ml-1" />
           </button>
         </div>
@@ -213,7 +212,7 @@ const Dashboard = () => {
             <h3 className="font-black text-xl">Team Online</h3>
             <span className="bg-green-100 text-green-800 font-black text-xs px-2 py-1 rounded-md border-[2px] border-black">8</span>
           </div>
-          
+
           <div className="space-y-2">
             {['Sarah Chen', 'Mike Ross', 'Emma Wilson', 'Alex Turner'].map((name, i) => (
               <button key={i} className="w-full flex items-center gap-3 p-2 hover:bg-gray-50 rounded-xl transition-colors group">

@@ -30,9 +30,8 @@ const OnboardingPage = () => {
           {/* Step Indicator */}
           <div className="flex items-center gap-2">
             {[1, 2, 3, 4].map(step => (
-              <div key={step} className={`w-8 h-8 sm:w-10 sm:h-10 border-[2.5px] border-black rounded-lg flex items-center justify-center font-black transition-colors ${
-                step <= currentStep ? 'bg-green-500 text-white' : 'bg-white text-gray-300'
-              }`}>
+              <div key={step} className={`w-8 h-8 sm:w-10 sm:h-10 border-[2.5px] border-black rounded-lg flex items-center justify-center font-black transition-colors ${step <= currentStep ? 'bg-green-500 text-white' : 'bg-white text-gray-300'
+                }`}>
                 {step < currentStep ? <Check size={16} strokeWidth={4} /> : step}
               </div>
             ))}
@@ -48,7 +47,7 @@ const OnboardingPage = () => {
       <div className="pt-32 px-6 flex justify-center">
         <AnimatePresence mode="wait">
           {currentStep === 1 && (
-            <motion.div 
+            <motion.div
               key="step1"
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
               animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -58,7 +57,7 @@ const OnboardingPage = () => {
             >
               <div className="text-center mb-8">
                 <div className="inline-block bg-purple-100 border-[3px] border-black px-4 py-1.5 rounded-full mb-4"
-                     style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                   <span className="font-black text-xs text-purple-700 tracking-wider">STEP 1 OF 4</span>
                 </div>
                 <h1 className="font-black text-3xl sm:text-4xl mb-3">Create your workspace</h1>
@@ -70,7 +69,7 @@ const OnboardingPage = () => {
               <div className="space-y-6">
                 <div>
                   <label className="block font-bold text-sm mb-2">Workspace name</label>
-                  <input 
+                  <input
                     type="text"
                     placeholder="e.g., Acme Inc"
                     className="w-full px-5 py-4 border-[3px] border-black rounded-xl font-medium text-lg focus:outline-none focus:ring-4 focus:ring-purple-200 transition-shadow"
@@ -87,7 +86,7 @@ const OnboardingPage = () => {
                     <div className="bg-gray-100 border-y-[3px] border-l-[3px] border-black px-4 py-4 rounded-l-xl border-r-0 text-gray-500 font-medium whitespace-nowrap">
                       bitstream.app/
                     </div>
-                    <input 
+                    <input
                       type="text"
                       placeholder="acme-inc"
                       className="flex-1 px-4 py-4 border-[3px] border-black rounded-r-xl font-medium text-lg focus:outline-none focus:ring-4 focus:ring-purple-200 transition-shadow"
@@ -100,7 +99,7 @@ const OnboardingPage = () => {
                   <label className="block font-bold text-sm mb-3">What's your team size?</label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {['1-10', '11-50', '51-200', '200+'].map(size => (
-                      <button 
+                      <button
                         key={size}
                         className="py-3 border-[3px] border-black rounded-xl font-bold hover:bg-purple-50 transition-colors focus:bg-purple-100 focus:ring-2 focus:ring-black"
                         style={{ boxShadow: '4px 4px 0 0 #0F172A' }}
@@ -112,7 +111,7 @@ const OnboardingPage = () => {
                 </div>
 
                 <button onClick={nextStep} className="w-full bg-green-500 border-[3px] border-black py-4 rounded-xl font-black text-lg text-white hover:bg-green-600 hover:-translate-y-1 transition-all mt-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
-                        style={{ boxShadow: '4px 6px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 6px 0 0 #0F172A' }}>
                   Continue <ArrowRight size={18} strokeWidth={4} className="inline-block ml-1" />
                 </button>
               </div>
@@ -120,7 +119,7 @@ const OnboardingPage = () => {
           )}
 
           {currentStep === 2 && (
-            <motion.div 
+            <motion.div
               key="step2"
               initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
               animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
@@ -130,7 +129,7 @@ const OnboardingPage = () => {
             >
               <div className="text-center mb-8">
                 <div className="inline-block bg-green-100 border-[3px] border-black px-4 py-1.5 rounded-full mb-4"
-                     style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                   <span className="font-black text-xs text-green-700 tracking-wider">STEP 2 OF 4</span>
                 </div>
                 <h1 className="font-black text-3xl sm:text-4xl mb-3">Invite your team</h1>
@@ -142,7 +141,7 @@ const OnboardingPage = () => {
               <div className="space-y-4 mb-6">
                 {emails.map((email, i) => (
                   <div key={i} className="flex gap-3">
-                    <input 
+                    <input
                       type="email"
                       placeholder="teammate@company.com"
                       value={email}
@@ -154,7 +153,7 @@ const OnboardingPage = () => {
                       className="flex-1 px-5 py-3 border-[3px] border-black rounded-xl font-medium focus:outline-none focus:ring-4 focus:ring-green-200 transition-shadow"
                       style={{ boxShadow: '4px 4px 0 0 #0F172A' }}
                     />
-                    <button 
+                    <button
                       onClick={() => setEmails(emails.filter((_, index) => index !== i))}
                       disabled={emails.length === 1}
                       aria-label="Remove email"
@@ -167,7 +166,7 @@ const OnboardingPage = () => {
                 ))}
               </div>
 
-              <button 
+              <button
                 onClick={() => setEmails([...emails, ''])}
                 className="w-full bg-white border-[3px] border-black py-4 rounded-xl font-bold text-purple-600 mb-8 hover:bg-gray-50 transition-colors"
                 style={{ boxShadow: '4px 4px 0 0 #0F172A' }}
@@ -177,11 +176,11 @@ const OnboardingPage = () => {
 
               <div className="flex flex-col-reverse sm:flex-row gap-4">
                 <button onClick={nextStep} className="flex-1 bg-white border-[3px] border-black py-4 rounded-xl font-bold hover:bg-gray-50 hover:-translate-y-1 transition-all"
-                        style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                   Skip for now
                 </button>
                 <button onClick={nextStep} className="flex-1 bg-green-500 border-[3px] border-black py-4 rounded-xl font-black text-white hover:bg-green-600 hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
-                        style={{ boxShadow: '4px 6px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 6px 0 0 #0F172A' }}>
                   Send invites <ArrowRight size={18} strokeWidth={4} className="inline-block ml-1" />
                 </button>
               </div>
@@ -189,7 +188,7 @@ const OnboardingPage = () => {
           )}
 
           {currentStep === 3 && (
-            <motion.div 
+            <motion.div
               key="step3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -199,7 +198,7 @@ const OnboardingPage = () => {
             >
               <div className="text-center mb-8">
                 <div className="inline-block bg-cyan-100 border-[3px] border-black px-4 py-1.5 rounded-full mb-4"
-                     style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                   <span className="font-black text-xs text-cyan-700 tracking-wider">STEP 3 OF 4</span>
                 </div>
                 <h1 className="font-black text-3xl sm:text-4xl mb-3">Customize your experience</h1>
@@ -209,7 +208,7 @@ const OnboardingPage = () => {
               <div className="space-y-4">
                 {/* Preference Cards */}
                 <div className="bg-white border-[3px] border-black rounded-xl p-5"
-                     style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                   <div className="flex items-center justify-between">
                     <div className="flex-1 pr-4">
                       <h3 className="font-bold text-lg mb-1">Desktop notifications</h3>
@@ -222,7 +221,7 @@ const OnboardingPage = () => {
                 </div>
 
                 <div className="bg-white border-[3px] border-black rounded-xl p-5"
-                     style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                   <div className="flex items-center justify-between">
                     <div className="flex-1 pr-4">
                       <h3 className="font-bold text-lg mb-1">Email summaries</h3>
@@ -233,9 +232,9 @@ const OnboardingPage = () => {
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="bg-white border-[3px] border-black rounded-xl p-5"
-                     style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                   <div className="flex items-center justify-between">
                     <div className="flex-1 pr-4">
                       <h3 className="font-bold text-lg mb-1">Dark mode</h3>
@@ -250,11 +249,11 @@ const OnboardingPage = () => {
 
               <div className="flex gap-4 mt-8">
                 <button onClick={() => setCurrentStep(2)} className="bg-white border-[3px] border-black px-6 py-4 rounded-xl font-bold hover:bg-gray-50 transition-colors"
-                        style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
                   Back
                 </button>
                 <button onClick={nextStep} className="flex-1 bg-green-500 border-[3px] border-black py-4 rounded-xl font-black text-lg text-white hover:bg-green-600 hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
-                        style={{ boxShadow: '4px 6px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '4px 6px 0 0 #0F172A' }}>
                   Continue <ArrowRight size={18} strokeWidth={4} className="inline-block ml-1" />
                 </button>
               </div>
@@ -262,7 +261,7 @@ const OnboardingPage = () => {
           )}
 
           {currentStep === 4 && (
-            <motion.div 
+            <motion.div
               key="step4"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -270,7 +269,7 @@ const OnboardingPage = () => {
             >
               <div className="text-center space-y-6">
                 <div className="w-24 h-24 bg-green-500 border-[4px] border-black rounded-2xl mx-auto flex items-center justify-center animate-bounce-slight"
-                     style={{ boxShadow: '8px 8px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '8px 8px 0 0 #0F172A' }}>
                   <Check className="text-white" size={48} strokeWidth={4} />
                 </div>
 
@@ -284,7 +283,7 @@ const OnboardingPage = () => {
                 {/* Quick Tips Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 mb-12">
                   <div className="bg-purple-50 border-[3px] border-black rounded-xl p-6 text-center"
-                       style={{ boxShadow: '6px 6px 0 0 #0F172A' }}>
+                    style={{ boxShadow: '6px 6px 0 0 #0F172A' }}>
                     <div className="w-14 h-14 bg-purple-500 border-[2.5px] border-black rounded-xl mx-auto mb-4 flex items-center justify-center">
                       <MessageSquare className="text-white" size={24} />
                     </div>
@@ -293,7 +292,7 @@ const OnboardingPage = () => {
                   </div>
 
                   <div className="bg-green-50 border-[3px] border-black rounded-xl p-6 text-center"
-                       style={{ boxShadow: '6px 6px 0 0 #0F172A' }}>
+                    style={{ boxShadow: '6px 6px 0 0 #0F172A' }}>
                     <div className="w-14 h-14 bg-green-500 border-[2.5px] border-black rounded-xl mx-auto mb-4 flex items-center justify-center">
                       <Video className="text-white" size={24} />
                     </div>
@@ -302,7 +301,7 @@ const OnboardingPage = () => {
                   </div>
 
                   <div className="bg-cyan-50 border-[3px] border-black rounded-xl p-6 text-center"
-                       style={{ boxShadow: '6px 6px 0 0 #0F172A' }}>
+                    style={{ boxShadow: '6px 6px 0 0 #0F172A' }}>
                     <div className="w-14 h-14 bg-cyan-500 border-[2.5px] border-black rounded-xl mx-auto mb-4 flex items-center justify-center">
                       <Calendar className="text-white" size={24} />
                     </div>
@@ -312,7 +311,7 @@ const OnboardingPage = () => {
                 </div>
 
                 <button onClick={() => navigate('/dashboard')} className="bg-purple-500 border-[3px] border-black px-12 py-5 rounded-xl font-black text-xl text-white mx-auto hover:bg-purple-600 hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
-                        style={{ boxShadow: '6px 8px 0 0 #0F172A' }}>
+                  style={{ boxShadow: '6px 8px 0 0 #0F172A' }}>
                   Go to dashboard <ArrowRight size={20} strokeWidth={4} className="inline-block ml-1" />
                 </button>
               </div>

@@ -1,6 +1,7 @@
-import { Quote, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Zap, Lock, Sparkles, ArrowRight, Lightbulb, MessageSquare, Video } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const GoogleIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -18,146 +19,479 @@ const GitHubIcon = () => (
 );
 
 const LoginPage = () => {
+  const [currentScene, setCurrentScene] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentScene((prev) => (prev + 1) % 4);
+    }, 7000); // 7 seconds per scene
+    return () => clearInterval(timer);
+  }, []);
+
+  // Articulated Builder Component with Limbs
+  const ArticulatedBuilder = ({ color, pose = "idle", className }: any) => {
+    const variants = {
+      idle: { 
+        armR: { rotate: 0 }, 
+        armL: { rotate: 0 },
+        legR: { rotate: 0 },
+        legL: { rotate: 0 },
+        global: { y: 0, x: 0, rotate: 0, scale: 1 }
+      },
+      lost: { 
+        armR: { rotate: [45, 60, 45] }, 
+        armL: { rotate: [-45, -60, -45] },
+        legR: { rotate: 0 },
+        legL: { rotate: 0 },
+        global: { x: [-2, 2, -2], rotate: [-1, 1, -1] }
+      },
+      slumped: {
+        armR: { rotate: 20 },
+        armL: { rotate: -20 },
+        legR: { rotate: -15 },
+        legL: { rotate: 15 },
+        global: { y: 15, rotate: 5, scaleY: 0.95 }
+      },
+      beaconLook: { 
+        armR: { rotate: -40 }, 
+        armL: { rotate: 40 },
+        legR: { rotate: -5 },
+        legL: { rotate: 5 },
+        global: { rotateX: -30, y: -5, scale: 1.05 }
+      },
+      surfing: { 
+        armR: { rotate: -110 }, 
+        armL: { rotate: 70 },
+        legR: { rotate: -30 },
+        legL: { rotate: 40 },
+        global: { rotate: 25, x: 10, y: [0, -15, 0] }
+      }
+    };
+
+    const currentPose: any = variants[pose as keyof typeof variants] || variants.idle;
+
+    return (
+      <motion.svg viewBox="0 0 100 150" className={className} initial="idle" style={{ overflow: "visible" }}>
+        <motion.g 
+          animate={currentPose.global} 
+          transition={{ type: "spring", stiffness: 100 }}
+          style={{ originX: "50px", originY: "75px" }}
+        >
+          {/* Torso/Body */}
+          <rect 
+            x="35" y="55" width="30" height="60" rx="15" 
+            fill={color} 
+          />
+          {/* Head */}
+          <circle 
+            cx="50" cy="30" r="18" 
+            fill={color} 
+          />
+          {/* Right Arm */}
+          <motion.rect 
+            x="65" y="60" width="10" height="40" rx="5" 
+            fill={color} 
+            style={{ originY: "5px", originX: "5px" }}
+            animate={currentPose.armR}
+            transition={{ type: "spring", stiffness: 100 }}
+          />
+          {/* Left Arm */}
+          <motion.rect 
+            x="25" y="60" width="10" height="40" rx="5" 
+            fill={color} 
+            style={{ originY: "5px", originX: "95%" }}
+            animate={currentPose.armL}
+            transition={{ type: "spring", stiffness: 100 }}
+          />
+          {/* Legs */}
+          <motion.rect 
+            x="52" y="110" width="10" height="30" rx="5" 
+            fill={color} opacity={0.8} 
+            style={{ originY: "5px", originX: "5px" }}
+            animate={currentPose.legR}
+            transition={{ type: "spring", stiffness: 100 }}
+          />
+          <motion.rect 
+            x="38" y="110" width="10" height="30" rx="5" 
+            fill={color} opacity={0.8} 
+            style={{ originY: "5px", originX: "5px" }}
+            animate={currentPose.legL}
+            transition={{ type: "spring", stiffness: 100 }}
+          />
+        </motion.g>
+      </motion.svg>
+    );
+  };
+
   return (
-    <div className="min-h-screen flex text-black font-sans selection:bg-purple-500 selection:text-white bg-white">
-      {/* Left Panel - Branding */}
-      <div className="hidden lg:flex w-2/5 bg-gradient-to-br from-purple-400 to-cyan-400 p-12 flex-col relative overflow-hidden border-r-[3px] border-black">
-        {/* Animated Background Elements */}
-        <motion.div 
-          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }} 
-          transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-          className="absolute top-20 right-20 w-24 h-24 bg-yellow-400 border-[3px] border-black rounded-full mix-blend-multiply opacity-50"
-        />
-        <motion.div 
-          animate={{ x: [0, 20, 0], rotate: [0, -10, 0] }} 
-          transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-          className="absolute bottom-40 left-10 w-32 h-32 bg-pink-400 border-[3px] border-black rounded-lg mix-blend-multiply opacity-50 rotate-12"
-        />
-        
-        <div className="relative z-10 flex items-center gap-2 mb-12">
-          <div className="w-10 h-10 bg-black rounded-lg flex items-center justify-center">
-            <span className="text-white font-black text-xl">B</span>
-          </div>
-          <span className="font-black text-2xl tracking-tight">BitStream</span>
+    <div className="min-h-screen flex text-black font-sans selection:bg-purple-500 selection:text-white bg-[#F8FAFC] relative overflow-hidden">
+      {/* Global Blueprint Grid Overlay */}
+      <div className="fixed inset-0 opacity-[0.05] pointer-events-none z-0"
+        style={{
+          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
+          backgroundSize: '40px 40px'
+        }} />
+
+      {/* Animated Data Packets (Background) */}
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-20 overflow-hidden">
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ x: -100, y: Math.random() * 1000 }}
+            animate={{
+              x: 2000,
+              y: (Math.random() * 1000)
+            }}
+            transition={{
+              duration: 10 + Math.random() * 20,
+              repeat: Infinity,
+              ease: "linear",
+              delay: i * 2
+            }}
+            className="absolute h-[2px] w-20 bg-purple-400/30"
+          />
+        ))}
+      </div>
+
+      {/* Left Panel - Visual Playground */}
+      <div className="hidden lg:flex w-4/12 bg-purple-600 p-16 flex-col relative overflow-hidden border-r-[4px] border-black">
+        {/* Global Architectural Grid */}
+        <div className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+            backgroundSize: '32px 32px'
+          }} />
+
+        {/* Branding */}
+        <div className="relative z-10 flex items-center gap-3 mb-24">
+          <motion.div 
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            className="w-12 h-12 bg-white border-[3px] border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0_0_#000] cursor-pointer"
+          >
+            <span className="text-black font-black text-xl">B</span>
+          </motion.div>
+          <span className="font-black text-3xl tracking-tighter text-white uppercase italic">BitStream</span>
         </div>
 
-        <div className="relative z-10 mt-auto">
+        {/* The Epic Storytelling Engine */}
+        <div className="relative z-10 mb-auto mt-12 px-4">
+          <div className="h-[350px] flex flex-col justify-center relative">
+            <AnimatePresence mode="wait">
+              {currentScene === 0 && (
+                <motion.div 
+                  key="scene0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex flex-col items-center justify-center h-full text-center p-6"
+                >
+                  <div className="relative mb-8">
+                    {/* Glitchy Static Background */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-60">
+                      {[...Array(20)].map((_, i) => (
+                        <motion.div
+                          key={i}
+                          animate={{ 
+                            x: [0, Math.random() * 200 - 100, 0],
+                            scaleX: [1, Math.random() * 5, 1],
+                            opacity: [0, 1, 0]
+                          }}
+                          transition={{ duration: 0.1 + Math.random() * 0.2, repeat: Infinity, delay: i * 0.05 }}
+                          className="absolute h-[3px] bg-white mix-blend-overlay"
+                          style={{ top: `${Math.random() * 100}%`, width: `${20 + Math.random() * 80}px` }}
+                        />
+                      ))}
+                    </div>
+                    
+                    <div className="relative">
+                      <motion.div
+                        animate={{ opacity: [0.6, 1, 0.4], scale: [1, 1.2, 0.9] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                        className="absolute -top-20 left-1/2 -translate-x-1/2"
+                      >
+                        <Lightbulb size={64} className="text-yellow-100 fill-yellow-100/30 drop-shadow-[0_0_25px_rgba(255,255,255,0.4)]" />
+                      </motion.div>
+                      <ArticulatedBuilder color="#64748b" className="w-24 h-36 relative z-10" pose="lost" />
+                    </div>
+                  </div>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Lost in the noise.</h3>
+                  <p className="text-white/70 font-bold text-lg">Your focus is buried under 1,000 tabs.</p>
+                </motion.div>
+              )}
+
+              {currentScene === 1 && (
+                <motion.div 
+                  key="scene1"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="flex flex-col items-center justify-center h-full text-center p-6"
+                >
+                  <div className="relative mb-8 w-64 h-48 flex items-end justify-center">
+                    {/* Falling Notification Icons */}
+                    {[MessageSquare, Video, Sparkles, Zap, MessageSquare, Lock].map((Icon, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ y: -150, x: (i - 2.5) * 40, opacity: 0 }}
+                        animate={{ y: 80, opacity: [0, 1, 0], rotate: 360, scale: [1, 1.5, 0.8] }}
+                        transition={{ duration: 1.5 + Math.random(), repeat: Infinity, delay: i * 0.2 }}
+                        className="absolute top-0 text-white/40 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+                      >
+                        <Icon size={40} />
+                      </motion.div>
+                    ))}
+                    
+                    <ArticulatedBuilder color="#475569" className="w-24 h-36 relative z-10" pose="slumped" />
+                  </div>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">The weight of chaos.</h3>
+                  <p className="text-white/70 font-bold text-lg">Communication shouldn't be a burden.</p>
+                </motion.div>
+              )}
+
+              {currentScene === 2 && (
+                <motion.div 
+                  key="scene2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex flex-col items-center justify-center h-full text-center p-6"
+                >
+                  <div className="relative mb-8">
+                    {/* The Beacon Light */}
+                    <motion.div
+                      initial={{ opacity: 0, scaleY: 0 }}
+                      animate={{ opacity: 0.4, scaleY: 1 }}
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-[300px] bg-gradient-to-t from-purple-500 to-transparent blur-3xl"
+                      style={{ originY: "100%" }}
+                    />
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                      className="absolute -top-12 left-1/2 -translate-x-1/2"
+                    >
+                      <Lightbulb size={48} className="text-yellow-400 fill-yellow-400/40 drop-shadow-[0_0_20px_#facc15]" />
+                    </motion.div>
+                    
+                    <ArticulatedBuilder color="#ffffff" className="w-24 h-36 relative z-10" pose="beaconLook" />
+                  </div>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Finding the signal.</h3>
+                  <p className="text-white/70 font-bold text-lg">BitStream illuminates the path forward.</p>
+                </motion.div>
+              )}
+
+              {currentScene === 3 && (
+                <motion.div 
+                  key="scene3"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 50 }}
+                  className="flex flex-col items-center justify-center h-full text-center p-6 overflow-hidden"
+                >
+                  <div className="relative mb-8 w-full flex justify-center">
+                    {/* Data Stream Grid */}
+                    <div className="absolute inset-0 flex items-center justify-center overflow-hidden h-40 opacity-20">
+                      <motion.div
+                        animate={{ x: [-100, 0] }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="flex gap-4"
+                      >
+                        {[...Array(20)].map((_, i) => (
+                          <div key={i} className="w-1 h-1 bg-white rounded-full shrink-0" />
+                        ))}
+                      </motion.div>
+                    </div>
+
+                    <motion.div
+                      animate={{ y: [0, -10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <ArticulatedBuilder color="#ffffff" className="w-24 h-36" pose="surfing" />
+                    </motion.div>
+
+                    {/* Speed Lines */}
+                    {[...Array(5)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ x: 200, opacity: 0 }}
+                        animate={{ x: -200, opacity: [0, 1, 0] }}
+                        transition={{ duration: 0.5, repeat: Infinity, delay: i * 0.1, ease: "linear" }}
+                        className="absolute w-20 h-[2px] bg-white/40"
+                        style={{ top: `${20 + i * 15}%`, left: '50%' }}
+                      />
+                    ))}
+                  </div>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Enter the flow state.</h3>
+                  <p className="text-white/70 font-bold text-lg">Where focus meets frictionless power.</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Feature Teaser */}
+        <div className="relative z-10 space-y-12 mt-12">
+          <div className="space-y-4">
+            <h2 className="text-6xl font-black text-white leading-tight tracking-tighter">
+              Build <br /> Better.
+            </h2>
+          </div>
+
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white border-[3px] border-black rounded-2xl p-6"
-            style={{ boxShadow: '8px 8px 0 0 #0F172A' }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="bg-white border-[4px] border-black rounded-[2.5rem] p-8 shadow-[12px_12px_0_0_#000] relative overflow-hidden group hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-default"
           >
-            <Quote className="text-purple-500 mb-4" size={32} />
-            <p className="font-bold text-xl mb-6">
-              "BitStream has completely transformed how our engineering team collaborates. It's fast, beautiful, and just works."
-            </p>
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 border-[2px] border-black rounded-full bg-cyan-200 overflow-hidden">
-                <img src="https://i.pravatar.cc/150?u=1" alt="Sarah Connor" className="w-full h-full object-cover" />
+            <motion.div 
+              animate={{ 
+                rotate: [0, 90, 180, 270, 360],
+                scale: [1, 1.2, 1]
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className="absolute -top-10 -left-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl group-hover:bg-purple-500/20"
+            />
+            <div className="flex items-center gap-4 mb-6 relative z-10">
+              <div className="w-12 h-12 bg-purple-500 border-[3px] border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0_0_#000]">
+                <Sparkles size={28} className="text-white" strokeWidth={3} />
               </div>
               <div>
-                <div className="font-black">Sarah Connor</div>
-                <div className="text-sm font-medium text-gray-600">CTO @ TechCorp</div>
+                <div className="font-black text-lg group-hover:text-purple-600 transition-colors">Instant Sync</div>
               </div>
             </div>
+            <p className="font-bold text-gray-600 leading-relaxed relative z-10">
+              "BitStream is the backbone of our dev workflow. It's not just a tool; it's our engine."
+            </p>
           </motion.div>
         </div>
       </div>
 
-      {/* Right Panel - Form */}
-      <div className="w-full lg:w-3/5 flex items-center justify-center p-6 sm:p-12">
-        <div className="w-full max-w-[420px]">
-          <div className="space-y-6">
+      {/* Right Panel - Login Form */}
+      <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ type: "spring", damping: 25, stiffness: 120 }}
+        className="w-full lg:w-8/12 flex items-center justify-center p-6 sm:p-12 relative z-10"
+      >
+        <div className="w-full max-w-[540px]">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, type: "spring" }}
+            className="bg-white border-[4px] border-black rounded-[3rem] p-10 md:p-12 shadow-[20px_20px_0_0_#000] relative overflow-hidden"
+          >
             {/* Header */}
-            <div className="text-center space-y-2">
-              <h1 className="font-black text-4xl">Welcome back</h1>
-              <p className="text-gray-600 font-medium">
-                Sign in to your BitStream workspace
-              </p>
-            </div>
-
-            {/* Social Login Buttons */}
-            <div className="space-y-3">
-              <button className="w-full bg-white border-[3px] border-black py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 hover:-translate-y-0.5 transition-all"
-                      style={{ boxShadow: '2px 2px 0 0 #0F172A' }}>
-                <GoogleIcon /> Continue with Google
-              </button>
-              
-              <button className="w-full bg-white border-[3px] border-black py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 hover:-translate-y-0.5 transition-all"
-                      style={{ boxShadow: '2px 2px 0 0 #0F172A' }}>
-                <GitHubIcon /> Continue with GitHub
-              </button>
-            </div>
-
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t-[2px] border-gray-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white font-black text-gray-500">OR</span>
-              </div>
-            </div>
-
-            {/* Email/Password Form */}
-            <div className="space-y-4">
-              <div>
-                <label className="block font-bold text-sm mb-2">Email</label>
-                <input 
-                  type="email"
-                  placeholder="you@company.com"
-                  className="w-full px-4 py-3 border-[3px] border-black rounded-xl font-medium focus:outline-none focus:ring-4 focus:ring-purple-200 transition-shadow"
-                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}
-                />
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <label className="block font-bold text-sm">Password</label>
-                  <a href="/reset-password" className="text-sm font-bold text-purple-600 hover:text-purple-700">
-                    Forgot?
-                  </a>
-                </div>
-                <input 
-                  type="password"
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3 border-[3px] border-black rounded-xl font-medium focus:outline-none focus:ring-4 focus:ring-purple-200 transition-shadow"
-                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}
-                />
-              </div>
-
-              {/* Remember Me */}
-              <div className="flex items-center">
-                <input 
-                  type="checkbox" 
-                  id="remember"
-                  className="w-5 h-5 border-[2px] border-black rounded accent-green-500 cursor-pointer"
-                />
-                <label htmlFor="remember" className="ml-2 text-sm font-medium text-gray-700 cursor-pointer">
-                  Remember me for 30 days
-                </label>
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <button 
-              style={{ boxShadow: '4px 6px 0 0 #0F172A' }}
-              className="w-full bg-green-500 border-[3px] border-black py-4 rounded-xl font-black text-lg text-white hover:bg-green-600 hover:-translate-y-1 transition-all focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="mb-8 relative z-10 text-center lg:text-left"
             >
-              Sign in <ArrowRight size={20} strokeWidth={4} className="inline-block ml-1" />
-            </button>
+              <h1 className="font-black text-6xl tracking-tighter mb-4">Welcome back</h1>
+              <p className="text-gray-500 font-bold text-xl leading-tight">
+                Log in to your workspace.
+              </p>
+            </motion.div>
 
-            {/* Signup Link */}
-            <p className="text-center text-sm">
-              <span className="text-gray-600 font-medium">Don't have an account? </span>
-              <Link to="/signup" className="font-bold text-purple-600 hover:text-purple-700 underline">
-                Sign up for free
-              </Link>
-            </p>
-          </div>
+            {/* Form */}
+            <div className="space-y-8 relative z-10">
+              {/* Social Buttons */}
+              <div className="grid grid-cols-2 gap-6">
+                {[
+                  { name: 'Google', icon: GoogleIcon },
+                  { name: 'GitHub', icon: GitHubIcon }
+                ].map((social, i) => (
+                  <motion.button
+                    key={social.name}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 + (i * 0.1) }}
+                    className="bg-white border-[3px] border-black py-4 px-4 rounded-2xl font-black text-base flex items-center justify-center gap-3 hover:translate-x-1 hover:translate-y-1 transition-all shadow-[6px_6px_0_0_#000] hover:shadow-none"
+                  >
+                    <social.icon /> {social.name}
+                  </motion.button>
+                ))}
+              </div>
+
+              {/* Divider */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.7 }}
+                className="relative"
+              >
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t-[3px] border-black opacity-10"></div>
+                </div>
+                <div className="relative flex justify-center text-[10px] font-black uppercase tracking-[0.3em]">
+                  <span className="px-6 bg-white text-gray-400">Continue with email</span>
+                </div>
+              </motion.div>
+
+              {/* Input Fields */}
+              <div className="space-y-6">
+                {[
+                  { label: 'Email Address', type: 'email', placeholder: 'name@company.com', icon: Zap },
+                  { label: 'Password', type: 'password', placeholder: '••••••••', icon: Lock, forgot: true }
+                ].map((input, i) => (
+                  <motion.div
+                    key={input.label}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.8 + (i * 0.1) }}
+                  >
+                    <div className="flex justify-between items-center mb-4 px-2">
+                      <label className="block font-black text-xs uppercase tracking-widest text-gray-400 ml-2">{input.label}</label>
+                      {input.forgot && (
+                        <a href="/reset-password" title="Recover Access" className="text-[10px] font-black uppercase tracking-widest text-purple-600 hover:underline">
+                          Forgot?
+                        </a>
+                      )}
+                    </div>
+                    <div className="relative">
+                      <input
+                        type={input.type}
+                        placeholder={input.placeholder}
+                        className="w-full pl-14 pr-6 py-4 border-[4px] border-black rounded-2xl font-bold text-xl focus:outline-none focus:ring-0 focus:border-purple-600 transition-colors shadow-[8px_8px_0_0_#000] focus:shadow-[10px_10px_0_0_#7C3AED]"
+                      />
+                      <input.icon className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 transition-colors group-focus-within:text-purple-600" size={24} strokeWidth={3} />
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Submit Button */}
+              <motion.button
+                whileHover={{
+                  scale: 1.02,
+                  x: [0, -2, 2, -2, 2, 0],
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full bg-black text-white border-[4px] border-black py-5 rounded-[2rem] font-black text-3xl shadow-[8px_8px_0_0_#22C55E] hover:translate-x-2 hover:translate-y-2 hover:shadow-none transition-all flex items-center justify-center gap-3 mt-4 group overflow-hidden relative"
+              >
+                <motion.div
+                  className="absolute inset-0 bg-white/10 -translate-x-full skew-x-12 group-hover:translate-x-full transition-transform duration-700"
+                />
+                Login
+                <ArrowRight size={32} strokeWidth={4} className="group-hover:translate-x-2 transition-transform" />
+              </motion.button>
+
+              {/* Links */}
+              <div className="pt-8 text-center">
+                <span className="text-gray-400 font-bold">New to BitStream? </span>
+                <Link to="/signup" className="font-black text-purple-600 hover:underline tracking-tight">
+                  Create Account
+                </Link>
+              </div>
+            </div>
+
+            <div className="absolute -bottom-10 -right-10 w-40 h-40 opacity-[0.05]"
+              style={{
+                backgroundImage: 'radial-gradient(circle at 2px 2px, black 1px, transparent 0)',
+                backgroundSize: '20px 20px'
+              }} />
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
