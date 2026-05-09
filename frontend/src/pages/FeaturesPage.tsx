@@ -8,18 +8,25 @@ const FeaturesPage = () => {
   const [activeTab, setActiveTab] = useState('Messaging');
 
   const tabs = [
-    { name: 'Messaging', icon: MessageSquare, color: 'bg-purple-500', desc: "Real-time communication for high-performance teams. Threaded conversations and instant code sharing.", benefits: ["Threaded Discussions", "Markdown Support", "Custom Emojis", "Real-time Presence"] },
-    { name: 'Video', icon: Video, color: 'bg-green-500', desc: "Crystal clear 4K video conferencing built into your workspace. No more external links or joining codes.", benefits: ["4K Screen Sharing", "Auto-Recording", "AI Noise Cancellation", "Interactive Polls"] },
-    { name: 'Calendar', icon: Calendar, color: 'bg-cyan-500', desc: "A unified view of your team's availability. Smart scheduling that understands your sprint cycles.", benefits: ["Calendar Sync", "Timezone Intelligence", "Shared Calendars", "Meeting Transcripts"] },
-    { name: 'Voice', icon: Headphones, color: 'bg-pink-500', desc: "Drop-in audio rooms for spontaneous brainstorming sessions. High-fidelity voice for the office feel.", benefits: ["Spatial Audio", "Global Shortcut", "Low Latency", "Integrated Chat"] },
-    { name: 'Workspaces', icon: Folders, color: 'bg-orange-500', desc: "Organize your projects, teams, and partners into secure, isolated environments.", benefits: ["RBAC Permissions", "Custom Branding", "Multi-tenant", "Guest Access"] },
-    { name: 'Security', icon: Shield, color: 'bg-yellow-500', desc: "Enterprise-grade protection for your communications. End-to-end encryption by default.", benefits: ["AES-256 Encryption", "SSO & SAML", "Compliance Logs", "Device Management"] }
+    { name: 'Messaging', icon: MessageSquare, color: 'bg-purple-500', desc: "Fast chat for busy teams. Organize chats and share code easily.", benefits: ["Threaded Discussions", "Markdown Support", "Custom Emojis", "Real-time Presence"] },
+    { name: 'Video', icon: Video, color: 'bg-green-500', desc: "Clear video calls inside your workspace. No links or codes needed.", benefits: ["4K Screen Sharing", "Auto-Recording", "AI Noise Cancellation", "Interactive Polls"] },
+    { name: 'Calendar', icon: Calendar, color: 'bg-cyan-500', desc: "See when everyone is free. Schedule meetings around your work.", benefits: ["Calendar Sync", "Timezone Intelligence", "Shared Calendars", "Meeting Transcripts"] },
+    { name: 'Voice', icon: Headphones, color: 'bg-pink-500', desc: "Join audio rooms to talk anytime. Clear voice that feels like the office.", benefits: ["Spatial Audio", "Global Shortcut", "Low Latency", "Integrated Chat"] },
+    { name: 'Workspaces', icon: Folders, color: 'bg-orange-500', desc: "Keep projects and teams in their own safe spaces.", benefits: ["RBAC Permissions", "Custom Branding", "Multi-tenant", "Guest Access"] },
+    { name: 'Security', icon: Shield, color: 'bg-yellow-500', desc: "Strong safety for all your chats. Your data is always private.", benefits: ["AES-256 Encryption", "SSO & SAML", "Compliance Logs", "Device Management"] }
   ];
 
   const currentTab = tabs.find(t => t.name === activeTab) || tabs[0];
 
   return (
-    <div className="min-h-screen bg-bg-primary text-black font-sans selection:bg-purple-500 selection:text-white">
+    <div className="min-h-screen bg-bg-primary text-black font-sans selection:bg-purple-500 selection:text-white overflow-x-hidden relative">
+      {/* Global Blueprint Grid Overlay */}
+      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50"
+        style={{
+          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
+          backgroundSize: '40px 40px'
+        }} />
+
       <Navbar />
 
       {/* Hero Section */}
@@ -74,7 +81,7 @@ const FeaturesPage = () => {
             transition={{ delay: 0.2 }}
             className="text-xl md:text-2xl text-gray-600 font-medium mb-16 max-w-3xl mx-auto leading-relaxed"
           >
-            Explore the features that make BitStream the all-in-one platform for modern engineering teams who value deep work and zero noise.
+            See why teams love BitStream for working together and getting things done.
           </motion.p>
 
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">

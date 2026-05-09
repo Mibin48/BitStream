@@ -1,244 +1,431 @@
-import { Home, MessageSquare, Video, Calendar, Folder, Users, ChevronDown, Plus, Settings, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Plus, Clock, CheckCircle2, Play, Pause, Activity, Hash, Star, X, Folder, Users } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Dashboard = () => {
+  // --- State ---
+  const [activeChannel, setActiveChannel] = useState('general');
+  const [expandedGroups, setExpandedGroups] = useState(['Channels', 'Pinned Chats']);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(2700); // 45 minutes in seconds
+  const [tasks, setTasks] = useState([
+    { id: 1, title: 'Sprint Planning', time: '10:00 AM', completed: true },
+    { id: 2, title: 'Design System Update', time: '11:30 AM', completed: true },
+    { id: 3, title: 'API Documentation', time: '02:00 PM', completed: true },
+    { id: 4, title: 'Client Feedback', time: '04:00 PM', completed: false },
+    { id: 5, title: 'Team Sync', time: '05:30 PM', completed: false },
+  ]);
+  const [showNotification, setShowNotification] = useState(false);
+
+  // --- Handlers ---
+  const toggleGroup = (groupTitle: string) => {
+    setExpandedGroups(prev =>
+      prev.includes(groupTitle)
+        ? prev.filter(t => t !== groupTitle)
+        : [...prev, groupTitle]
+    );
+  };
+
+  const toggleTask = (taskId: number) => {
+    setTasks(prev => prev.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t));
+  };
+
+  const addNewTask = () => {
+    const newTask = {
+      id: tasks.length + 1,
+      title: 'New Collaboration Task',
+      time: 'Just now',
+      completed: false
+    };
+    setTasks(prev => [...prev, newTask]);
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 3000);
+  };
+
+  // --- Timer Logic ---
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isTimerRunning && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(prev => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isTimerRunning, timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const leftNavGroups = [
+    {
+      title: 'Channels',
+      items: [
+        { id: 'general', icon: Hash, label: 'general', sub: 'Team wide chat' },
+        { id: 'design', icon: Hash, label: 'design', sub: 'Feedback & assets' },
+        { id: 'engineering', icon: Hash, label: 'engineering', sub: 'Code & deploys' },
+      ]
+    },
+    {
+      title: 'Pinned Chats',
+      items: [
+        { id: 'sarah', icon: Star, label: 'Sarah Chen', sub: 'Project lead' },
+        { id: 'ds', icon: Star, label: 'Design System', sub: 'Internal group' },
+      ]
+    },
+    {
+      title: 'Workspaces',
+      items: []
+    }
+  ];
+
   return (
-    <div className="flex bg-gray-50 min-h-screen text-black font-sans selection:bg-purple-500 selection:text-white">
-      {/* Sidebar (Left) */}
-      <div className="w-64 bg-white border-r-[3px] border-black h-screen fixed left-0 top-0 flex flex-col z-20">
-        {/* Workspace Header */}
-        <div className="p-4 border-b-[3px] border-black">
-          <button className="w-full flex items-center justify-between p-3 border-[2.5px] border-black rounded-xl hover:bg-gray-50 transition-colors"
-            style={{ boxShadow: '0 3px 0 0 #0F172A' }}>
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-purple-500 border-[2px] border-black rounded-lg flex items-center justify-center">
-                <span className="text-white font-black text-sm">A</span>
-              </div>
-              <span className="font-black text-sm truncate">Acme Inc</span>
+    <>
+      {/* Notification Toast */}
+      <AnimatePresence>
+        {showNotification && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-28 left-1/2 -translate-x-1/2 z-50 bg-white border border-slate-200 px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3"
+          >
+            <div className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+              <CheckCircle2 size={16} />
             </div>
-            <ChevronDown size={16} strokeWidth={4} aria-hidden="true" />
-          </button>
-        </div>
+            <span className="text-sm font-bold text-slate-800">Task added successfully!</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        {/* Navigation */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-1">
-          {[
-            { icon: Home, label: 'Home', active: true },
-            { icon: MessageSquare, label: 'Messages', badge: '12' },
-            { icon: Video, label: 'Calls' },
-            { icon: Calendar, label: 'Calendar', badge: '3' },
-            { icon: Folder, label: 'Files' },
-            { icon: Users, label: 'Team' }
-          ].map((item, i) => (
-            <button
-              key={i}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-bold text-sm transition-all ${item.active
-                  ? 'bg-purple-500 text-white border-[2px] border-black'
-                  : 'text-gray-700 hover:bg-gray-100 border-[2px] border-transparent hover:border-black hover:-translate-y-0.5'
-                }`}
-              style={item.active ? { boxShadow: '2px 2px 0 0 #0F172A' } : {}}
-            >
-              <div className="flex items-center gap-3">
-                <item.icon size={18} strokeWidth={2.5} />
-                <span>{item.label}</span>
+      <div className="flex-1 flex overflow-hidden px-8 pt-8 pb-8 gap-8 bg-gradient-to-br from-white via-purple-50/30 to-lime-50/20">
+
+        {/* Left Sidebar / Workspace Panel */}
+        <div className="w-[300px] flex-shrink-0 flex flex-col gap-6 hidden xl:flex overflow-y-auto pr-2 custom-scrollbar">
+
+          {/* Active Workspace / Team Card */}
+          <div className="bg-[#9c9bcf] rounded-[2.5rem] p-1 shadow-sm relative group overflow-hidden cursor-pointer">
+            <div className="h-40 bg-gradient-to-b from-purple-300/40 to-purple-200/20 rounded-[1.75rem] overflow-hidden relative">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  className="w-20 h-20 bg-white/50 backdrop-blur-sm rounded-3xl flex items-center justify-center shadow-inner text-3xl font-bold text-[#8b8abc]"
+                >
+                  B
+                </motion.div>
               </div>
-              {item.badge && (
-                <span className="bg-red-500 text-white text-xs font-black px-2 py-0.5 rounded-md border-[2px] border-black shadow-sm">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          ))}
-
-          {/* Channels Section */}
-          <div className="pt-6 mt-4 border-t-[3px] border-black">
-            <div className="flex items-center justify-between px-3 mb-3">
-              <span className="text-xs font-black text-gray-500 uppercase tracking-wider">Channels</span>
-              <button className="w-6 h-6 border-[2px] border-black rounded flex items-center justify-center hover:bg-gray-100 transition-colors"
-                style={{ boxShadow: '2px 2px 0 0 #0F172A' }}>
-                <Plus size={14} strokeWidth={3} />
-              </button>
             </div>
-            <div className="space-y-1">
-              {['general', 'design', 'engineering', 'marketing'].map(channel => (
-                <button key={channel} className="w-full text-left px-3 py-2 text-sm font-bold text-gray-700 hover:bg-gray-100 rounded-lg hover:translate-x-1 transition-transform">
-                  <span className="text-gray-400 mr-2">#</span>{channel}
-                </button>
-              ))}
+            <div className="p-5 pt-6 pb-4">
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="font-bold text-xl tracking-tight text-slate-800">BitStream Team</h3>
+                <div className="w-2.5 h-2.5 bg-[#c5f06c] rounded-full shadow-[0_0_10px_rgba(197,240,108,0.5)] animate-pulse" />
+              </div>
+              <p className="text-xs font-semibold text-slate-600 tracking-wide uppercase">Core Dev Workspace</p>
             </div>
           </div>
-        </div>
 
-        {/* User Profile (Bottom) */}
-        <div className="p-4 border-t-[3px] border-black bg-gray-50">
-          <Link to="/settings" className="w-full flex items-center gap-3 p-2.5 bg-white border-[2.5px] border-black rounded-xl hover:-translate-y-0.5 transition-transform"
-            style={{ boxShadow: '0 3px 0 0 #0F172A' }}>
-            <div className="relative">
-              <div className="w-10 h-10 bg-green-500 border-[2px] border-black rounded-lg flex items-center justify-center">
-                <span className="text-white font-black text-sm">JD</span>
-              </div>
-              <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-400 border-[2px] border-black rounded-full"></div>
-            </div>
-            <div className="flex-1 text-left overflow-hidden">
-              <div className="font-black text-sm truncate">John Doe</div>
-              <div className="text-xs text-gray-500 font-bold">Online</div>
-            </div>
-            <Settings size={18} className="text-gray-400" />
-          </Link>
-        </div>
-      </div>
-
-      {/* Main Content Area (Center) */}
-      <div className="ml-64 mr-[340px] flex-1 p-8 min-h-screen">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="bg-white border-[3px] border-black rounded-2xl p-8 mb-8"
-            style={{ boxShadow: '8px 8px 0 0 #0F172A' }}>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8">
-              <div>
-                <h1 className="font-black text-4xl mb-2">Good morning, John! 👋</h1>
-                <p className="text-lg text-gray-600 font-medium">Here's what's happening today</p>
-              </div>
-              <button className="bg-green-500 border-[3px] border-black px-6 py-3.5 rounded-xl font-black text-white hover:bg-green-600 hover:-translate-y-1 transition-all whitespace-nowrap"
-                style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
-                Start meeting
-              </button>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {[
-                { label: 'Unread', value: '12', color: 'bg-purple-100', textColor: 'text-purple-700' },
-                { label: 'Meetings', value: '3', color: 'bg-green-100', textColor: 'text-green-700' },
-                { label: 'Tasks', value: '8', color: 'bg-cyan-100', textColor: 'text-cyan-700' },
-                { label: 'Files', value: '24', color: 'bg-pink-100', textColor: 'text-pink-700' }
-              ].map((stat, i) => (
-                <div key={i} className={`${stat.color} border-[2.5px] border-black rounded-xl p-5 hover:-translate-y-1 transition-transform cursor-pointer`}
-                  style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
-                  <div className={`font-black text-3xl ${stat.textColor} mb-1`}>{stat.value}</div>
-                  <div className="text-sm font-bold text-gray-700">{stat.label}</div>
+          {/* Accordion List */}
+          <div className="flex-1 space-y-2 overflow-y-auto pr-2 custom-scrollbar">
+            {leftNavGroups.map((group, idx) => (
+              <div key={idx} className="bg-transparent">
+                <div
+                  onClick={() => toggleGroup(group.title)}
+                  className="py-3 px-2 flex items-center justify-between cursor-pointer hover:bg-white/40 rounded-xl transition-colors group"
+                >
+                  <span className="font-bold text-sm text-slate-700 group-hover:text-slate-900">{group.title}</span>
+                  <motion.div
+                    animate={{ rotate: expandedGroups.includes(group.title) ? 45 : 0 }}
+                  >
+                    <Plus size={16} strokeWidth={2} className="text-slate-400 group-hover:text-slate-600" />
+                  </motion.div>
                 </div>
-              ))}
-            </div>
+
+                <AnimatePresence>
+                  {expandedGroups.includes(group.title) && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="pl-2 pr-2 pb-2 space-y-2 overflow-hidden"
+                    >
+                      {group.items.map((item, i) => (
+                        <div
+                          key={i}
+                          onClick={() => setActiveChannel(item.id)}
+                          className={`flex items-center gap-3 rounded-2xl p-3 shadow-sm border transition-all duration-300 cursor-pointer group/item ${activeChannel === item.id
+                              ? 'bg-white border-white scale-[1.02] shadow-md ring-1 ring-purple-500/10'
+                              : 'bg-white/60 backdrop-blur-sm border-white/40 hover:bg-white hover:border-white'
+                            }`}
+                        >
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-sm transition-all ${activeChannel === item.id ? 'bg-[#8b8abc] text-white' : 'bg-white text-slate-600 group-hover/item:text-[#8b8abc]'
+                            }`}>
+                            <item.icon size={18} strokeWidth={2} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className={`font-bold text-xs ${activeChannel === item.id ? 'text-slate-900' : 'text-slate-800'}`}>{item.label}</div>
+                            <div className="text-[10px] font-semibold text-slate-500 mt-0.5 truncate">{item.sub}</div>
+                          </div>
+                          {i === 0 && group.title === 'Channels' && (
+                            <div className="bg-[#f06c9b] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">12</div>
+                          )}
+                        </div>
+                      ))}
+                      {group.items.length === 0 && (
+                        <div className="text-[10px] text-slate-400 italic px-2 py-1">No items found</div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
           </div>
 
-          {/* Recent Activity Feed */}
-          <div className="bg-white border-[3px] border-black rounded-2xl p-8"
-            style={{ boxShadow: '8px 8px 0 0 #0F172A' }}>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-black text-2xl">Recent Activity</h2>
-              <button className="text-sm font-bold text-purple-600 hover:underline">View all</button>
-            </div>
-
-            <div className="space-y-4">
-              {/* Activity items */}
-              {[
-                { type: 'message', user: 'Sarah', action: 'sent a message in', target: '#design', time: '2m ago', color: 'bg-purple-500', initial: 'S' },
-                { type: 'call', user: 'Team', action: 'started a', target: 'video call', time: '15m ago', color: 'bg-green-500', initial: 'T' },
-                { type: 'file', user: 'Mike', action: 'uploaded a file to', target: '#engineering', time: '1h ago', color: 'bg-cyan-500', initial: 'M' }
-              ].map((activity, i) => (
-                <div key={i} className="flex items-center gap-4 p-4 border-[2.5px] border-black rounded-xl hover:bg-gray-50 transition-colors shadow-[2px_2px_0_0_#0F172A]">
-                  <div className={`w-12 h-12 ${activity.color} border-[2px] border-black rounded-xl flex items-center justify-center shrink-0`}>
-                    <span className="text-white font-black text-lg">{activity.initial}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm sm:text-base font-medium truncate">
-                      <span className="font-black">{activity.user}</span> {activity.action} <span className="font-bold text-purple-600">{activity.target}</span>
-                    </p>
-                    <p className="text-xs font-bold text-gray-500 mt-0.5">{activity.time}</p>
-                  </div>
-                  <button className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors shrink-0">
-                    <span className="font-black tracking-widest text-gray-400" aria-label="More options">…</span>
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
-      </div>
 
-      {/* Right Panel (Activity & Calendar) */}
-      <div className="w-[340px] bg-white border-l-[3px] border-black h-screen fixed right-0 top-0 overflow-y-auto z-20 hidden xl:block">
-        {/* Calendar Widget */}
-        <div className="p-6 border-b-[3px] border-black bg-yellow-50">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-black text-xl">Today's Schedule</h3>
-            <button className="w-8 h-8 bg-white border-[2px] border-black rounded-lg flex items-center justify-center hover:bg-gray-100 shadow-[2px_2px_0_0_#0F172A]">
-              <Plus size={16} strokeWidth={3} />
-            </button>
+        {/* Central Interaction Area */}
+        <div className="flex-1 flex flex-col gap-6 min-w-0 overflow-y-auto pr-4 custom-scrollbar">
+
+          {/* Greeting */}
+          <div className="mb-2">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 bg-gradient-to-r from-slate-900 via-[#8b8abc] to-slate-900 bg-clip-text text-transparent">Workspace Overview</h1>
           </div>
 
-          <div className="space-y-3">
-            {/* Meeting cards */}
+          {/* Application Relevant Stat Widgets */}
+          <div className="flex gap-4">
             {[
-              { time: '10:00 AM', title: 'Design Review', attendees: 4, color: 'bg-purple-200' },
-              { time: '2:30 PM', title: 'Client Call', attendees: 2, color: 'bg-green-200' },
-              { time: '4:00 PM', title: 'Team Standup', attendees: 8, color: 'bg-cyan-200' }
-            ].map((meeting, i) => (
-              <div key={i} className={`${meeting.color} border-[2.5px] border-black rounded-xl p-4 hover:-translate-y-1 transition-transform cursor-pointer`}
-                style={{ boxShadow: '4px 4px 0 0 #0F172A' }}>
-                <div className="font-black text-xs uppercase tracking-wider mb-2 bg-white inline-block px-2 py-0.5 rounded border-[2px] border-black">{meeting.time}</div>
-                <div className="font-black text-lg mb-2">{meeting.title}</div>
-                <div className="flex items-center justify-between">
-                  <div className="flex -space-x-2">
-                    {[...Array(Math.min(meeting.attendees, 3))].map((_, j) => (
-                      <div key={j} className="w-6 h-6 rounded-full border-[2px] border-black bg-white overflow-hidden">
-                        <img src={`https://i.pravatar.cc/100?u=${i}${j}`} alt="avatar" />
-                      </div>
-                    ))}
-                    {meeting.attendees > 3 && (
-                      <div className="w-6 h-6 rounded-full border-[2px] border-black bg-gray-100 flex items-center justify-center text-[10px] font-black">
-                        +{meeting.attendees - 3}
-                      </div>
+              { label: 'Unread Messages', val: '24', bg: 'bg-[#8b8abc] text-white', width: 'flex-1' },
+              { label: 'Meetings Today', val: '3', bg: 'bg-[#c5f06c] text-[#1a1a1a]', width: 'flex-1' },
+              { label: 'Pending Tasks', val: tasks.filter(t => !t.completed).length, bg: 'bg-[#f06c9b] text-white', width: 'flex-1' },
+              { label: 'Files Shared', val: '156', bg: 'bg-white border border-slate-200 text-slate-700', width: 'flex-1' },
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                whileHover={{ y: -5 }}
+                className={`${stat.width} flex flex-col gap-2`}
+              >
+                <span className="text-[11px] font-semibold text-slate-600 pl-1">{stat.label}</span>
+                <div className={`h-12 rounded-2xl flex items-center justify-center font-bold text-lg ${stat.bg} shadow-sm transition-all hover:shadow-md`}>
+                  {stat.val}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Middle Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2">
+
+            {/* Activity Card */}
+            <div className="bg-gradient-to-br from-white to-purple-50/50 rounded-[2rem] p-6 shadow-sm relative border border-purple-100/50 group">
+              <div className="absolute top-6 right-6 w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-50 transition-colors cursor-pointer">
+                <Activity size={16} strokeWidth={2} className="group-hover:text-[#8b8abc] transition-colors" />
+              </div>
+              <h3 className="font-semibold text-slate-700 mb-2">Team Activity</h3>
+              <div className="flex items-end gap-2 mb-8">
+                <span className="text-4xl font-medium tracking-tight text-slate-900">84%</span>
+                <span className="text-[10px] font-semibold text-slate-500 max-w-[80px] leading-tight pb-1">Activity increase this week</span>
+              </div>
+
+              <div className="h-28 flex items-end justify-between gap-1 mt-auto">
+                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => {
+                  const barColors = ['#9c9bcf','#c5f06c','#f06c9b','#8b8abc','#f0e66c','#f09b6c','#9c9bcf'];
+                  return (
+                  <div key={day} className="flex flex-col items-center gap-3 flex-1">
+                    <div className="w-full relative flex justify-center h-[80px] items-end">
+                      <div className="w-2 bg-slate-100 rounded-full h-full absolute bottom-0 z-0" />
+                      <motion.div
+                        initial={{ height: 0 }}
+                        animate={{ height: `${[40, 65, 30, 85, 55, 20, 15][i]}%` }}
+                        transition={{ delay: i * 0.1, duration: 0.8 }}
+                        className="w-2 rounded-full z-10 relative"
+                        style={{ background: barColors[i] }}
+                      />
+                    </div>
+                    <span className="text-[10px] font-medium text-slate-400">{day}</span>
+                  </div>
+                )})}
+              </div>
+            </div>
+
+            {/* Focus Session Tracker */}
+            <div className="bg-gradient-to-br from-white to-lime-50/50 rounded-[2rem] p-6 shadow-sm relative flex flex-col items-center justify-center border border-lime-100/50">
+              <div className="absolute top-6 right-6 w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-50 transition-colors">
+                <Clock size={16} strokeWidth={2} />
+              </div>
+              <div className="absolute top-6 left-6 font-semibold text-slate-700">
+                Focus Session
+              </div>
+
+              <div className="w-40 h-40 rounded-full border-[8px] border-[#9c9bcf] border-l-slate-100 border-t-slate-100 flex flex-col items-center justify-center mt-4 rotate-45 relative overflow-hidden group/timer">
+                {isTimerRunning && (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+                    className="absolute inset-0 border-[8px] border-transparent border-t-purple-400/20 rounded-full"
+                  />
+                )}
+                <div className="-rotate-45 text-center flex flex-col items-center">
+                  <div className="text-3xl font-medium tracking-tight text-slate-900 tabular-nums">
+                    {formatTime(timeLeft)}
+                  </div>
+                  <div className="text-[9px] font-semibold text-slate-500 mt-1 uppercase tracking-widest">Remaining</div>
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-6 absolute bottom-6 right-6">
+                <button
+                  onClick={() => {
+                    setIsTimerRunning(false);
+                    setTimeLeft(2700);
+                  }}
+                  className="w-10 h-10 bg-white border border-slate-200 rounded-full flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-all active:scale-90 shadow-sm"
+                >
+                  <X size={16} strokeWidth={2} />
+                </button>
+                <button
+                  onClick={() => setIsTimerRunning(!isTimerRunning)}
+                  className="w-10 h-10 bg-[#8b8abc] rounded-full flex items-center justify-center text-white hover:bg-[#8b8abc]/90 transition-all active:scale-90 shadow-md shadow-purple-900/20"
+                >
+                  {isTimerRunning ? <Pause size={16} strokeWidth={2} fill="currentColor" /> : <Play size={16} strokeWidth={2} fill="currentColor" className="ml-0.5" />}
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Team Schedule */}
+          <div className="bg-white rounded-[2rem] p-6 shadow-sm flex-1 border border-slate-100 flex flex-col overflow-hidden min-h-[400px]">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="font-bold text-lg text-slate-800">Upcoming Events</h2>
+              <button className="text-xs font-bold text-[#8b8abc] hover:text-[#f06c9b] transition-colors hover:underline">View Calendar</button>
+            </div>
+
+            <div className="space-y-4 overflow-y-auto pr-2 custom-scrollbar flex-1">
+              {[
+                { title: 'Engineering Standup', time: '10:30 AM', duration: '30m', attendees: 8, color: 'bg-[#c5f06c]' },
+                { title: 'Product Review: BitStream V2', time: '01:00 PM', duration: '1h', attendees: 4, color: 'bg-[#f06c9b]' },
+                { title: 'Customer Feedback Call', time: '03:30 PM', duration: '45m', attendees: 2, color: 'bg-[#f0e66c]' },
+                { title: 'Weekly Recap', time: '05:00 PM', duration: '30m', attendees: 12, color: 'bg-[#8b8abc]' },
+              ].map((event, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ x: 5 }}
+                  className="flex items-center gap-4 p-3 rounded-2xl bg-slate-50 border border-slate-100 group cursor-pointer hover:bg-white hover:shadow-sm transition-all"
+                >
+                  <div className={`w-1 h-10 rounded-full ${event.color}`} />
+                  <div className="flex-1">
+                    <h4 className="font-bold text-sm text-slate-800 group-hover:text-purple-600 transition-colors">{event.title}</h4>
+                    <div className="flex items-center gap-2 text-[10px] font-semibold text-slate-600 mt-0.5">
+                      <Clock size={10} /> {event.time} ({event.duration})
+                    </div>
+                  </div>
+                  <div className="flex -space-x-1.5">
+                    {[...Array(Math.min(3, event.attendees))].map((_, idx) => {
+                      const avatarColors = ['#f06c9b','#c5f06c','#8b8abc'];
+                      return <div key={idx} className="w-6 h-6 rounded-full border-2 border-white" style={{ background: avatarColors[idx] }} />;
+                    })}
+                    {event.attendees > 3 && (
+                      <div className="w-6 h-6 rounded-full border-2 border-white bg-[#f0e66c] flex items-center justify-center text-[8px] font-bold text-slate-700">+{event.attendees - 3}</div>
                     )}
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs font-bold bg-white px-2 py-1 rounded-md border-[2px] border-black">
-                    <Video size={12} strokeWidth={3} /> Join
-                  </div>
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
 
-          <button className="w-full bg-white border-[2.5px] border-black rounded-xl py-3 mt-4 font-black text-sm hover:bg-gray-50 transition-colors"
-            style={{ boxShadow: '2px 2px 0 0 #0F172A' }}>
-            View full calendar <ArrowRight size={16} strokeWidth={4} className="inline-block ml-1" />
-          </button>
         </div>
 
-        {/* Online Team Members */}
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-black text-xl">Team Online</h3>
-            <span className="bg-green-100 text-green-800 font-black text-xs px-2 py-1 rounded-md border-[2px] border-black">8</span>
+        {/* Right Sidebar */}
+        <div className="w-[320px] flex-shrink-0 flex flex-col gap-6 hidden lg:flex overflow-y-auto pr-2 custom-scrollbar">
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-gradient-to-br from-[#8b8abc]/10 to-[#9c9bcf]/5 p-4 rounded-3xl border border-[#8b8abc]/20 shadow-sm hover:shadow-md transition-all cursor-default">
+              <div className="w-7 h-7 rounded-xl bg-[#8b8abc]/20 flex items-center justify-center mb-2"><Users size={14} className="text-[#8b8abc]" /></div>
+              <div className="text-2xl font-bold text-slate-900">48</div>
+              <div className="text-[10px] text-slate-600 font-semibold">Team Members</div>
+            </div>
+            <div className="bg-gradient-to-br from-[#c5f06c]/15 to-[#c5f06c]/5 p-4 rounded-3xl border border-[#c5f06c]/30 shadow-sm hover:shadow-md transition-all cursor-default">
+              <div className="w-7 h-7 rounded-xl bg-[#c5f06c]/30 flex items-center justify-center mb-2"><Folder size={14} className="text-[#5a7a1a]" /></div>
+              <div className="text-2xl font-bold text-slate-900">12</div>
+              <div className="text-[10px] text-slate-600 font-semibold">Active Projects</div>
+            </div>
           </div>
 
-          <div className="space-y-2">
-            {['Sarah Chen', 'Mike Ross', 'Emma Wilson', 'Alex Turner'].map((name, i) => (
-              <button key={i} className="w-full flex items-center gap-3 p-2 hover:bg-gray-50 rounded-xl transition-colors group">
-                <div className="relative">
-                  <div className={`w-10 h-10 border-[2px] border-black rounded-xl flex items-center justify-center shadow-[2px_2px_0_0_#0F172A] group-hover:shadow-[0px_0px_0_0_#0F172A] group-hover:translate-y-[2px] group-hover:translate-x-[2px] transition-all
-                    ${i % 4 === 0 ? 'bg-purple-400' : i % 4 === 1 ? 'bg-green-400' : i % 4 === 2 ? 'bg-cyan-400' : 'bg-pink-400'}
-                  `}>
-                    <span className="text-white font-black text-sm">{name.split(' ').map(n => n[0]).join('')}</span>
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-400 border-[2px] border-black rounded-full z-10"></div>
-                </div>
-                <div className="flex-1 text-left">
-                  <div className="font-black text-sm">{name}</div>
-                  <div className="text-xs text-gray-500 font-bold">Online</div>
-                </div>
-                <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
-                  <div className="w-7 h-7 bg-white border-[2px] border-black rounded-lg flex items-center justify-center hover:bg-gray-100">
-                    <MessageSquare size={12} strokeWidth={3} />
-                  </div>
-                </div>
-              </button>
-            ))}
+          <div className="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100">
+            <div className="flex justify-between items-end mb-5">
+              <h3 className="font-bold text-slate-700">Team Load</h3>
+              <span className="font-bold text-xl text-slate-800">68%</span>
+            </div>
+            <div className="space-y-4">
+              <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: '68%' }}
+                  transition={{ duration: 1, ease: 'easeOut' }}
+                  className="h-full bg-[#c5f06c] rounded-full"
+                />
+              </div>
+              <div className="flex justify-between text-[10px] font-medium text-slate-500">
+                <span>8 projects in progress</span>
+                <span>4 on hold</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Task Management */}
+          <div className="bg-[#8b8abc] rounded-[2.5rem] p-6 shadow-lg shadow-purple-900/10 flex-1 flex flex-col relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="flex justify-between items-end mb-6 relative z-10">
+              <h3 className="font-bold text-xl text-white">Daily Tasks</h3>
+              <motion.span
+                key={tasks.filter(t => t.completed).length}
+                initial={{ scale: 1.2, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="font-bold text-2xl text-white/80"
+              >
+                {tasks.filter(t => t.completed).length}/{tasks.length}
+              </motion.span>
+            </div>
+
+            <div className="space-y-3 flex-1 overflow-y-auto pr-1 relative z-10 custom-scrollbar">
+              <AnimatePresence mode="popLayout">
+                {tasks.map((task) => (
+                  <motion.div
+                    key={task.id}
+                    layout
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    className="flex gap-3 items-center group cursor-pointer p-2 rounded-2xl hover:bg-white/5 transition-colors"
+                    onClick={() => toggleTask(task.id)}
+                  >
+                    <div className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 border-2 transition-all ${task.completed ? 'bg-[#c5f06c] border-[#c5f06c] text-[#1a1a1a]' : 'border-white/20 text-transparent'
+                      }`}>
+                      <CheckCircle2 size={12} strokeWidth={3} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className={`font-bold text-[11px] truncate transition-all ${task.completed ? 'text-white/40 line-through' : 'text-white'}`}>
+                        {task.title}
+                      </div>
+                      <div className="text-[9px] font-bold text-white/60 mt-0.5">{task.time}</div>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+
+            <button
+              onClick={addNewTask}
+              className="mt-4 w-full py-2.5 bg-white rounded-xl text-[#8b8abc] font-bold text-xs shadow-md shadow-black/10 hover:bg-slate-50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 relative z-10"
+            >
+              <Plus size={14} /> New Task
+            </button>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

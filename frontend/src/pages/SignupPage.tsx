@@ -31,35 +31,35 @@ const SignupPage = () => {
   // Articulated Builder Component with Limbs
   const ArticulatedBuilder = ({ color, pose = "idle", className }: any) => {
     const variants = {
-      idle: { 
-        armR: { rotate: 0 }, 
+      idle: {
+        armR: { rotate: 0 },
         armL: { rotate: 0 },
         body: { y: 0 }
       },
-      sad: { 
-        armR: { rotate: 20 }, 
+      sad: {
+        armR: { rotate: 20 },
         armL: { rotate: -20 },
         body: { y: 5, scaleY: 0.95 }
       },
-      reachingRight: { 
-        armR: { rotate: -80 }, 
+      reachingRight: {
+        armR: { rotate: -80 },
         armL: { rotate: 10 },
         body: { x: 5, rotate: 5 }
       },
-      reachingLeft: { 
-        armR: { rotate: -10 }, 
+      reachingLeft: {
+        armR: { rotate: -10 },
         armL: { rotate: 80 },
         body: { x: -5, rotate: -5 }
       },
-      celebrating: { 
-        armR: { rotate: -150 }, 
+      celebrating: {
+        armR: { rotate: -150 },
         armL: { rotate: 150 },
         body: { y: -10, scale: 1.05 }
       },
       shakingRight: {
-        armR: { 
+        armR: {
           rotate: [-55, -75, -55],
-          transition: { 
+          transition: {
             rotate: { repeat: Infinity, duration: 0.5, ease: "easeInOut" },
             default: { type: "spring", stiffness: 100 }
           }
@@ -69,9 +69,9 @@ const SignupPage = () => {
       },
       shakingLeft: {
         armR: { rotate: -10 },
-        armL: { 
+        armL: {
           rotate: [55, 75, 55],
-          transition: { 
+          transition: {
             rotate: { repeat: Infinity, duration: 0.5, ease: "easeInOut" },
             default: { type: "spring", stiffness: 100 }
           }
@@ -85,31 +85,31 @@ const SignupPage = () => {
     return (
       <motion.svg viewBox="0 0 100 150" className={className} initial="idle">
         {/* Torso/Body */}
-        <motion.rect 
-          x="35" y="55" width="30" height="60" rx="15" 
-          fill={color} 
+        <motion.rect
+          x="35" y="55" width="30" height="60" rx="15"
+          fill={color}
           animate={currentPose.body}
           transition={{ type: "spring", stiffness: 100 }}
         />
         {/* Head */}
-        <motion.circle 
-          cx="50" cy="30" r="18" 
-          fill={color} 
+        <motion.circle
+          cx="50" cy="30" r="18"
+          fill={color}
           animate={currentPose.body}
           transition={{ type: "spring", stiffness: 100, delay: 0.05 }}
         />
         {/* Right Arm */}
-        <motion.rect 
-          x="65" y="60" width="10" height="40" rx="5" 
-          fill={color} 
+        <motion.rect
+          x="65" y="60" width="10" height="40" rx="5"
+          fill={color}
           style={{ originY: "5px", originX: "5px" }}
           animate={currentPose.armR}
           transition={{ type: "spring", stiffness: 100 }}
         />
         {/* Left Arm */}
-        <motion.rect 
-          x="25" y="60" width="10" height="40" rx="5" 
-          fill={color} 
+        <motion.rect
+          x="25" y="60" width="10" height="40" rx="5"
+          fill={color}
           style={{ originY: "5px", originX: "95%" }}
           animate={currentPose.armL}
           transition={{ type: "spring", stiffness: 100 }}
@@ -136,15 +136,15 @@ const SignupPage = () => {
           <motion.div
             key={i}
             initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
+            animate={{
               opacity: [0.1, 0.3, 0.1],
               scale: [1, 1.5, 1],
               x: [0, Math.random() * 100 - 50, 0],
               y: [0, Math.random() * 100 - 50, 0]
             }}
-            transition={{ 
-              duration: 5 + Math.random() * 5, 
-              repeat: Infinity, 
+            transition={{
+              duration: 5 + Math.random() * 5,
+              repeat: Infinity,
               delay: i * 1
             }}
             className="absolute w-24 h-24 border-[1px] border-black/10 rounded-3xl"
@@ -185,40 +185,40 @@ const SignupPage = () => {
 
         {/* Dynamic Visual: The "Engine" */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none">
-          <motion.div 
-            animate={{ 
+          <motion.div
+            animate={{
               rotate: -360,
               scale: [1, 1.05, 1],
             }}
-            transition={{ 
+            transition={{
               rotate: { repeat: Infinity, duration: 40, ease: "linear" },
               scale: { repeat: Infinity, duration: 6, ease: "easeInOut" }
             }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border-[1px] border-white/10 rounded-full"
           />
-          <motion.div 
-            animate={{ 
+          <motion.div
+            animate={{
               rotate: 360,
             }}
             transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] border-[2px] border-white/5 rounded-full"
             style={{ borderStyle: "dashed" }}
           />
-          
+
           {/* Floating Geometric Mechanical Nodes */}
           {[...Array(5)].map((_, i) => (
             <motion.div
               key={i}
-              animate={{ 
+              animate={{
                 y: [0, -30, 0],
                 x: [0, Math.random() * 20 - 10, 0],
                 rotate: [0, 180, 360]
               }}
-              transition={{ 
-                duration: 5 + i, 
-                repeat: Infinity, 
+              transition={{
+                duration: 5 + i,
+                repeat: Infinity,
                 ease: "easeInOut",
-                delay: i * 0.5 
+                delay: i * 0.5
               }}
               className="absolute w-10 h-10 bg-white/5 border-[2px] border-white/10 rounded-xl"
               style={{
@@ -228,10 +228,10 @@ const SignupPage = () => {
             />
           ))}
         </div>
-        
+
         {/* Branding */}
         <div className="relative z-10 flex items-center gap-3 mb-24">
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.1, rotate: -5 }}
             className="w-12 h-12 bg-white border-[3px] border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0_0_#000] cursor-pointer"
           >
@@ -258,13 +258,13 @@ const SignupPage = () => {
                     {/* The Chasm */}
                     <div className="absolute bottom-0 left-0 w-[40%] h-2 bg-white/20 rounded-full" />
                     <div className="absolute bottom-0 right-0 w-[40%] h-2 bg-white/20 rounded-full" />
-                    
+
                     {/* Figure 1 - Left */}
                     <div className="relative">
                       <motion.div
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1, y: [0, -10, 0] }}
-                        transition={{ 
+                        transition={{
                           scale: { duration: 0.5, delay: 0.8 },
                           opacity: { duration: 0.5, delay: 0.8 },
                           y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
@@ -275,7 +275,7 @@ const SignupPage = () => {
                       </motion.div>
                       <ArticulatedBuilder color="#94a3b8" className="w-20 h-32" pose="sad" />
                     </div>
-                    
+
                     {/* Chaotic Void in middle */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32">
                       {[...Array(8)].map((_, i) => (
@@ -287,7 +287,7 @@ const SignupPage = () => {
                     <ArticulatedBuilder color="#94a3b8" className="w-20 h-32" pose="sad" />
                   </div>
                   <h3 className="text-3xl font-black text-white tracking-tight mb-2">Great ideas start alone.</h3>
-                  <p className="text-white/70 font-bold text-lg">But a chasm of chaos keeps teams apart.</p>
+                  <p className="text-white/70 font-bold text-lg">But it's hard to work together alone.</p>
                 </motion.div>
               )}
 
@@ -304,11 +304,11 @@ const SignupPage = () => {
                   <div className="relative w-full h-56 mb-6 flex items-end justify-between px-12 pb-4">
                     <div className="absolute bottom-0 left-0 w-[40%] h-2 bg-white/20 rounded-full" />
                     <div className="absolute bottom-0 right-0 w-[40%] h-2 bg-white/20 rounded-full" />
-                    
+
                     {/* Figure 1 reaching out with RIGHT hand */}
                     <ArticulatedBuilder color="#cbd5e1" className="w-20 h-32" pose="reachingRight" />
-                    
-                    <motion.div 
+
+                    <motion.div
                       initial={{ x: -100, y: -20, opacity: 1 }}
                       animate={{ x: 0, y: 120, opacity: 0, rotate: 360 }}
                       transition={{ duration: 2, repeat: Infinity, ease: "easeIn" }}
@@ -320,8 +320,8 @@ const SignupPage = () => {
                     {/* Figure 2 reaching out with LEFT hand */}
                     <ArticulatedBuilder color="#cbd5e1" className="w-20 h-32" pose="reachingLeft" />
                   </div>
-                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Trying to connect.</h3>
-                  <p className="text-white/70 font-bold text-lg">Data gets lost. Workflows break.</p>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Trying to talk.</h3>
+                  <p className="text-white/70 font-bold text-lg">Files get lost. Work stops.</p>
                 </motion.div>
               )}
 
@@ -338,9 +338,9 @@ const SignupPage = () => {
                   <div className="relative w-full h-56 mb-6 flex items-end justify-between px-12 pb-4">
                     <div className="absolute bottom-0 left-0 w-[40%] h-2 bg-white/40 rounded-full" />
                     <div className="absolute bottom-0 right-0 w-[40%] h-2 bg-white/40 rounded-full" />
-                    
+
                     {/* The Bridge Forming */}
-                    <motion.div 
+                    <motion.div
                       initial={{ width: 0, opacity: 0 }}
                       animate={{ width: "40%", opacity: 1 }}
                       transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
@@ -348,7 +348,7 @@ const SignupPage = () => {
                     />
 
                     {/* The BitStream Beam */}
-                    <motion.div 
+                    <motion.div
                       initial={{ height: 0 }}
                       animate={{ height: "100%" }}
                       transition={{ duration: 1, ease: "easeOut" }}
@@ -361,7 +361,7 @@ const SignupPage = () => {
                       animate={{ x: 15 }}
                       transition={{ duration: 2, delay: 1, ease: "easeInOut" }}
                     >
-                       <ArticulatedBuilder color="#ffffff" className="w-20 h-32" pose="shakingRight" />
+                      <ArticulatedBuilder color="#ffffff" className="w-20 h-32" pose="shakingRight" />
                     </motion.div>
 
                     {/* Figure 2 sliding to center */}
@@ -373,8 +373,8 @@ const SignupPage = () => {
                       <ArticulatedBuilder color="#ffffff" className="w-20 h-32" pose="shakingLeft" />
                     </motion.div>
                   </div>
-                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">BitStream bridges the gap.</h3>
-                  <p className="text-white/70 font-bold text-lg">A single source of truth connects the team.</p>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">BitStream brings teams together.</h3>
+                  <p className="text-white/70 font-bold text-lg">One place for all your work.</p>
                 </motion.div>
               )}
 
@@ -391,7 +391,7 @@ const SignupPage = () => {
                   <div className="relative w-full h-56 mb-6 flex items-end justify-center px-12 pb-4">
                     {/* Unified Ground */}
                     <div className="absolute bottom-0 left-[10%] w-[80%] h-2 bg-white shadow-[0_0_10px_white] rounded-full" />
-                    
+
                     {/* Figures standing together */}
                     <div className="flex gap-6 relative z-10">
                       <ArticulatedBuilder color="#4ade80" className="w-24 h-36" pose="celebrating" />
@@ -399,16 +399,16 @@ const SignupPage = () => {
                     </div>
 
                     {/* The Masterpiece (Impressive Assembling Structure) */}
-                    <motion.div 
+                    <motion.div
                       initial={{ y: 100, scale: 0, opacity: 0 }}
                       animate={{ y: -80, scale: 1, opacity: 1 }}
                       transition={{ duration: 2.5, type: "spring", damping: 12 }}
                       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                     >
                       <div className="relative w-40 h-40">
-                         {/* Core */}
-                         <motion.div 
-                          animate={{ rotate: 360, scale: [1, 1.2, 1] }} 
+                        {/* Core */}
+                        <motion.div
+                          animate={{ rotate: 360, scale: [1, 1.2, 1] }}
                           transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                           className="absolute inset-0 border-[6px] border-white rounded-[2.5rem] shadow-[0_0_50px_rgba(255,255,255,0.4)] flex items-center justify-center"
                         >
@@ -416,7 +416,7 @@ const SignupPage = () => {
                         </motion.div>
                         {/* Orbiting fragments */}
                         {[...Array(4)].map((_, i) => (
-                          <motion.div 
+                          <motion.div
                             key={i}
                             animate={{ rotate: 360 }}
                             transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: i * 0.5 }}
@@ -428,8 +428,8 @@ const SignupPage = () => {
                       </div>
                     </motion.div>
                   </div>
-                  <h3 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-white to-blue-300 tracking-tighter mb-2">Build the future. Together.</h3>
-                  <p className="text-white/80 font-bold text-lg">Instantly synchronized. Perfectly aligned.</p>
+                  <h3 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-white to-blue-300 tracking-tighter mb-2">Build great things together.</h3>
+                  <p className="text-white/80 font-bold text-lg">Everyone stays on the same page.</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -440,17 +440,17 @@ const SignupPage = () => {
         <div className="relative z-10 space-y-12 mt-12">
           <div className="space-y-4">
             <h2 className="text-6xl font-black text-white leading-tight tracking-tighter">
-              Start <br /> Fresh.
+              Start <br /> Here.
             </h2>
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="bg-white border-[4px] border-black rounded-[2.5rem] p-8 shadow-[12px_12px_0_0_#000] relative overflow-hidden group hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-default"
           >
-            <motion.div 
-              animate={{ 
+            <motion.div
+              animate={{
                 rotate: [0, 90, 180, 270, 360],
                 scale: [1, 1.2, 1]
               }}
@@ -462,7 +462,7 @@ const SignupPage = () => {
                 <Sparkles size={28} className="text-white" strokeWidth={3} />
               </div>
               <div>
-                <div className="font-black text-lg group-hover:text-green-600 transition-colors">Instant Sync</div>
+                <div className="font-black text-lg group-hover:text-green-600 transition-colors">Always Fast</div>
               </div>
             </div>
             <p className="font-bold text-gray-600 leading-relaxed relative z-10">
@@ -473,21 +473,21 @@ const SignupPage = () => {
       </div>
 
       {/* Right Panel - Sign Up Form */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ type: "spring", damping: 25, stiffness: 120 }}
         className="w-full lg:w-8/12 flex items-center justify-center p-6 sm:p-12 relative z-10 overflow-y-auto"
       >
         <div className="w-full max-w-[640px] py-6">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, type: "spring" }}
             className="bg-white border-[4px] border-black rounded-[3rem] p-10 md:p-12 shadow-[24px_24px_0_0_#000] relative overflow-hidden"
           >
             {/* Header */}
-            <motion.div 
+            <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}
@@ -503,7 +503,7 @@ const SignupPage = () => {
             <div className="space-y-8 relative z-10">
               {/* Social Buttons */}
               <div className="grid grid-cols-2 gap-6">
-                <motion.button 
+                <motion.button
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.5 }}
@@ -511,7 +511,7 @@ const SignupPage = () => {
                 >
                   <GoogleIcon /> Google
                 </motion.button>
-                <motion.button 
+                <motion.button
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.6 }}
@@ -522,7 +522,7 @@ const SignupPage = () => {
               </div>
 
               {/* Divider */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7 }}
@@ -542,7 +542,7 @@ const SignupPage = () => {
                   <div>
                     <label className="block font-black text-xs uppercase tracking-widest text-gray-400 mb-4 ml-2">First Name</label>
                     <div className="relative">
-                      <input 
+                      <input
                         type="text"
                         placeholder="John"
                         className="w-full pl-14 pr-6 py-4 border-[4px] border-black rounded-2xl font-bold text-xl focus:outline-none focus:ring-0 focus:border-green-500 transition-colors shadow-[8px_8px_0_0_#000] focus:shadow-[10px_10px_0_0_#22C55E]"
@@ -553,7 +553,7 @@ const SignupPage = () => {
                   <div>
                     <label className="block font-black text-xs uppercase tracking-widest text-gray-400 mb-4 ml-2">Last Name</label>
                     <div className="relative">
-                      <input 
+                      <input
                         type="text"
                         placeholder="Doe"
                         className="w-full px-6 py-5 border-[4px] border-black rounded-2xl font-bold text-xl focus:outline-none focus:ring-0 focus:border-green-500 transition-colors shadow-[8px_8px_0_0_#000] focus:shadow-[10px_10px_0_0_#22C55E]"
@@ -565,7 +565,7 @@ const SignupPage = () => {
                 <div>
                   <label className="block font-black text-xs uppercase tracking-widest text-gray-400 mb-4 ml-2">Work Email</label>
                   <div className="relative">
-                    <input 
+                    <input
                       type="email"
                       placeholder="you@company.com"
                       className="w-full pl-14 pr-6 py-4 border-[4px] border-black rounded-2xl font-bold text-xl focus:outline-none focus:ring-0 focus:border-green-500 transition-colors shadow-[8px_8px_0_0_#000] focus:shadow-[10px_10px_0_0_#22C55E]"
@@ -575,9 +575,9 @@ const SignupPage = () => {
                 </div>
 
                 <div>
-                  <label className="block font-black text-xs uppercase tracking-widest text-gray-400 mb-4 ml-2">Security Key</label>
+                  <label className="block font-black text-xs uppercase tracking-widest text-gray-400 mb-4 ml-2">Password</label>
                   <div className="relative">
-                    <input 
+                    <input
                       type="password"
                       placeholder="Min. 8 characters"
                       className="w-full pl-14 pr-6 py-4 border-[4px] border-black rounded-2xl font-bold text-xl focus:outline-none focus:ring-0 focus:border-green-500 transition-colors shadow-[8px_8px_0_0_#000] focus:shadow-[10px_10px_0_0_#22C55E]"
@@ -589,8 +589,8 @@ const SignupPage = () => {
 
               {/* Terms Checkbox */}
               <div className="flex items-start gap-4 pt-4">
-                <input 
-                  type="checkbox" 
+                <input
+                  type="checkbox"
                   id="terms"
                   className="w-8 h-8 border-[3px] border-black rounded-lg accent-green-500 mt-1 cursor-pointer shrink-0 shadow-[2px_2px_0_0_#000]"
                 />
@@ -600,7 +600,7 @@ const SignupPage = () => {
               </div>
 
               {/* Submit Button */}
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full bg-black text-white border-[4px] border-black py-5 rounded-[2rem] font-black text-3xl shadow-[8px_8px_0_0_#22C55E] hover:translate-x-2 hover:translate-y-2 hover:shadow-none transition-all flex items-center justify-center gap-3 mt-4"

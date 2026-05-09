@@ -51,7 +51,7 @@ func main() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-black font-sans selection:bg-purple-500 selection:text-white relative overflow-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] text-black font-sans selection:bg-purple-500 selection:text-white relative overflow-x-hidden">
       {/* Global Blueprint Grid Overlay */}
       <div className="fixed inset-0 opacity-[0.05] pointer-events-none z-50"
         style={{

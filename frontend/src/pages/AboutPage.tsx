@@ -22,7 +22,7 @@ const AboutPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-black font-sans selection:bg-purple-500 selection:text-white relative overflow-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] text-black font-sans selection:bg-purple-500 selection:text-white relative overflow-x-hidden">
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-2 bg-purple-600 origin-left z-[100]"
