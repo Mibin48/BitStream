@@ -1,5 +1,7 @@
 import React from 'react';
 import { Home, MessageSquare, Video, Calendar, Folder, Users, Search, Bell, Settings, Zap } from 'lucide-react';
+import { Logo } from '../ui/Logo';
+
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import NotificationCenter from './NotificationCenter';
@@ -57,9 +59,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         {/* Brand Section */}
         <div className="flex items-center gap-8 min-w-[200px]">
           <Link to="/" className="flex items-center gap-3.5 group">
-            <div className="w-11 h-11 bg-slate-900 rounded-[1.25rem] flex items-center justify-center text-white group-hover:bg-[#8b8abc] shadow-lg shadow-slate-900/10 transition-all rotate-[-4deg] group-hover:rotate-0">
-              <Zap size={24} fill="currentColor" />
+            <div className="w-11 h-11 bg-slate-900 rounded-[1.25rem] flex items-center justify-center text-white group-hover:bg-[#8b8abc] shadow-lg shadow-slate-900/10 transition-all rotate-[-4deg] group-hover:rotate-0 overflow-hidden">
+              <Logo size={28} color="white" fill="transparent" />
+
             </div>
+
             <div className="flex flex-col">
               <span className="text-lg font-black tracking-tighter uppercase leading-none">BitStream</span>
               <span className="text-[9px] font-bold text-[#8b8abc] uppercase tracking-[0.15em] mt-0.5">Workspace</span>
@@ -74,21 +78,20 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
-                <Link 
-                  key={item.label} 
+                <Link
+                  key={item.label}
                   to={item.path}
-                  className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl transition-all relative group ${
-                    isActive 
-                    ? 'bg-white text-slate-900 shadow-sm border border-slate-200/40' 
-                    : 'text-slate-500 hover:text-slate-900 hover:bg-white/40'
-                  }`}
+                  className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl transition-all relative group ${isActive
+                      ? 'bg-white text-slate-900 shadow-sm border border-slate-200/40'
+                      : 'text-slate-500 hover:text-slate-900 hover:bg-white/40'
+                    }`}
                 >
                   <Icon size={18} className={`transition-transform duration-300 ${isActive ? 'text-[#8b8abc]' : 'group-hover:scale-110'}`} strokeWidth={isActive ? 3 : 2} />
                   <span className={`text-[10px] font-black uppercase tracking-[0.1em] transition-colors ${isActive ? 'text-slate-900' : 'text-slate-400 group-hover:text-slate-900'}`}>
                     {item.label}
                   </span>
                   {isActive && (
-                    <motion.div 
+                    <motion.div
                       layoutId="nav-active"
                       className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#8b8abc] rounded-full"
                     />

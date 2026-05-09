@@ -2,6 +2,10 @@ import { Zap, Lock, Sparkles, ArrowRight, Lightbulb, MessageSquare, Video } from
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import InfiniteGridBackground from '../components/ui/InfiniteGridBackground';
+import { Logo } from '../components/ui/Logo';
+
+
 
 const GoogleIcon = () => (
   <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -125,12 +129,14 @@ const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex text-black font-sans selection:bg-purple-500 selection:text-white bg-[#F8FAFC] relative overflow-x-hidden">
-      {/* Global Blueprint Grid Overlay */}
-      <div className="fixed inset-0 opacity-[0.05] pointer-events-none z-0"
-        style={{
-          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }} />
+      {/* Global Dynamic Infinite Grid Background */}
+      <InfiniteGridBackground opacity={0.1} />
+
+
+
+
+
+
 
       {/* Animated Data Packets (Background) */}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-20 overflow-hidden">
@@ -166,10 +172,11 @@ const LoginPage = () => {
         <div className="relative z-10 flex items-center gap-3 mb-24">
           <motion.div
             whileHover={{ scale: 1.1, rotate: 5 }}
-            className="w-12 h-12 bg-white border-[3px] border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0_0_#000] cursor-pointer"
+            className="w-12 h-12 bg-white border-[3px] border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0_0_#000] cursor-pointer overflow-hidden"
           >
-            <span className="text-black font-black text-xl">B</span>
+            <Logo size={32} strokeWidth={8} />
           </motion.div>
+
           <span className="font-black text-3xl tracking-tighter text-white uppercase italic">BitStream</span>
         </div>
 

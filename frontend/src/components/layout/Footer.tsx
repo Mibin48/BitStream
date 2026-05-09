@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Code2, MessageSquare, Hash } from 'lucide-react';
+import { Logo } from '@/components/ui/Logo';
+
 
 const Footer = () => {
   return (
@@ -8,11 +10,22 @@ const Footer = () => {
         <div className="grid lg:grid-cols-5 gap-16 mb-20">
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-purple-600 border-[3px] border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0_0_#000]">
-                <span className="text-white font-black text-xl">B</span>
-              </div>
-              <span className="font-black text-3xl tracking-tighter">BitStream</span>
+              <svg
+                viewBox="0 0 100 100"
+                fill="none"
+                className="w-12 h-12"
+              >
+                <path
+                  d="M50,15 A25,25 0 1,0 50,65 A25,25 0 1,0 50,15 Z M35,40 A25,25 0 1,0 35,90 A25,25 0 1,0 35,40 Z M65,40 A25,25 0 1,0 65,90 A25,25 0 1,0 65,40 Z"
+                  fill="white"
+                  stroke="black"
+                  strokeWidth="8"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span className="font-black text-3xl tracking-tighter uppercase">BitStream</span>
             </div>
+
             <p className="text-lg font-bold text-gray-500 leading-relaxed max-w-sm">
               The high-performance protocol for the decentralized web. Built for engineers.
             </p>
