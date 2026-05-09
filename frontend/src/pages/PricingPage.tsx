@@ -10,9 +10,9 @@ const PricingPage = () => {
 
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-black font-sans selection:bg-purple-500 selection:text-white relative overflow-hidden">
-      {/* Global Blueprint Grid Background */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none -z-10"
+    <div className="min-h-screen bg-[#F8FAFC] text-black font-sans selection:bg-purple-500 selection:text-white relative overflow-x-hidden">
+      {/* Global Blueprint Grid Overlay */}
+      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50"
         style={{
           backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
           backgroundSize: '40px 40px'

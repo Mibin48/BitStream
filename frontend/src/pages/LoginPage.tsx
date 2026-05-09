@@ -31,15 +31,15 @@ const LoginPage = () => {
   // Articulated Builder Component with Limbs
   const ArticulatedBuilder = ({ color, pose = "idle", className }: any) => {
     const variants = {
-      idle: { 
-        armR: { rotate: 0 }, 
+      idle: {
+        armR: { rotate: 0 },
         armL: { rotate: 0 },
         legR: { rotate: 0 },
         legL: { rotate: 0 },
         global: { y: 0, x: 0, rotate: 0, scale: 1 }
       },
-      lost: { 
-        armR: { rotate: [45, 60, 45] }, 
+      lost: {
+        armR: { rotate: [45, 60, 45] },
         armL: { rotate: [-45, -60, -45] },
         legR: { rotate: 0 },
         legL: { rotate: 0 },
@@ -52,15 +52,15 @@ const LoginPage = () => {
         legL: { rotate: 15 },
         global: { y: 15, rotate: 5, scaleY: 0.95 }
       },
-      beaconLook: { 
-        armR: { rotate: -40 }, 
+      beaconLook: {
+        armR: { rotate: -40 },
         armL: { rotate: 40 },
         legR: { rotate: -5 },
         legL: { rotate: 5 },
         global: { rotateX: -30, y: -5, scale: 1.05 }
       },
-      surfing: { 
-        armR: { rotate: -110 }, 
+      surfing: {
+        armR: { rotate: -110 },
         armL: { rotate: 70 },
         legR: { rotate: -30 },
         legL: { rotate: 40 },
@@ -72,48 +72,48 @@ const LoginPage = () => {
 
     return (
       <motion.svg viewBox="0 0 100 150" className={className} initial="idle" style={{ overflow: "visible" }}>
-        <motion.g 
-          animate={currentPose.global} 
+        <motion.g
+          animate={currentPose.global}
           transition={{ type: "spring", stiffness: 100 }}
           style={{ originX: "50px", originY: "75px" }}
         >
           {/* Torso/Body */}
-          <rect 
-            x="35" y="55" width="30" height="60" rx="15" 
-            fill={color} 
+          <rect
+            x="35" y="55" width="30" height="60" rx="15"
+            fill={color}
           />
           {/* Head */}
-          <circle 
-            cx="50" cy="30" r="18" 
-            fill={color} 
+          <circle
+            cx="50" cy="30" r="18"
+            fill={color}
           />
           {/* Right Arm */}
-          <motion.rect 
-            x="65" y="60" width="10" height="40" rx="5" 
-            fill={color} 
+          <motion.rect
+            x="65" y="60" width="10" height="40" rx="5"
+            fill={color}
             style={{ originY: "5px", originX: "5px" }}
             animate={currentPose.armR}
             transition={{ type: "spring", stiffness: 100 }}
           />
           {/* Left Arm */}
-          <motion.rect 
-            x="25" y="60" width="10" height="40" rx="5" 
-            fill={color} 
+          <motion.rect
+            x="25" y="60" width="10" height="40" rx="5"
+            fill={color}
             style={{ originY: "5px", originX: "95%" }}
             animate={currentPose.armL}
             transition={{ type: "spring", stiffness: 100 }}
           />
           {/* Legs */}
-          <motion.rect 
-            x="52" y="110" width="10" height="30" rx="5" 
-            fill={color} opacity={0.8} 
+          <motion.rect
+            x="52" y="110" width="10" height="30" rx="5"
+            fill={color} opacity={0.8}
             style={{ originY: "5px", originX: "5px" }}
             animate={currentPose.legR}
             transition={{ type: "spring", stiffness: 100 }}
           />
-          <motion.rect 
-            x="38" y="110" width="10" height="30" rx="5" 
-            fill={color} opacity={0.8} 
+          <motion.rect
+            x="38" y="110" width="10" height="30" rx="5"
+            fill={color} opacity={0.8}
             style={{ originY: "5px", originX: "5px" }}
             animate={currentPose.legL}
             transition={{ type: "spring", stiffness: 100 }}
@@ -124,7 +124,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex text-black font-sans selection:bg-purple-500 selection:text-white bg-[#F8FAFC] relative overflow-hidden">
+    <div className="min-h-screen flex text-black font-sans selection:bg-purple-500 selection:text-white bg-[#F8FAFC] relative overflow-x-hidden">
       {/* Global Blueprint Grid Overlay */}
       <div className="fixed inset-0 opacity-[0.05] pointer-events-none z-0"
         style={{
@@ -164,7 +164,7 @@ const LoginPage = () => {
 
         {/* Branding */}
         <div className="relative z-10 flex items-center gap-3 mb-24">
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.1, rotate: 5 }}
             className="w-12 h-12 bg-white border-[3px] border-black rounded-2xl flex items-center justify-center shadow-[4px_4px_0_0_#000] cursor-pointer"
           >
@@ -178,7 +178,7 @@ const LoginPage = () => {
           <div className="h-[350px] flex flex-col justify-center relative">
             <AnimatePresence mode="wait">
               {currentScene === 0 && (
-                <motion.div 
+                <motion.div
                   key="scene0"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -191,7 +191,7 @@ const LoginPage = () => {
                       {[...Array(20)].map((_, i) => (
                         <motion.div
                           key={i}
-                          animate={{ 
+                          animate={{
                             x: [0, Math.random() * 200 - 100, 0],
                             scaleX: [1, Math.random() * 5, 1],
                             opacity: [0, 1, 0]
@@ -202,7 +202,7 @@ const LoginPage = () => {
                         />
                       ))}
                     </div>
-                    
+
                     <div className="relative">
                       <motion.div
                         animate={{ opacity: [0.6, 1, 0.4], scale: [1, 1.2, 0.9] }}
@@ -214,13 +214,13 @@ const LoginPage = () => {
                       <ArticulatedBuilder color="#64748b" className="w-24 h-36 relative z-10" pose="lost" />
                     </div>
                   </div>
-                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Lost in the noise.</h3>
-                  <p className="text-white/70 font-bold text-lg">Your focus is buried under 1,000 tabs.</p>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Too much noise.</h3>
+                  <p className="text-white/70 font-bold text-lg">It's hard to focus with so many tabs.</p>
                 </motion.div>
               )}
 
               {currentScene === 1 && (
-                <motion.div 
+                <motion.div
                   key="scene1"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -240,16 +240,16 @@ const LoginPage = () => {
                         <Icon size={40} />
                       </motion.div>
                     ))}
-                    
+
                     <ArticulatedBuilder color="#475569" className="w-24 h-36 relative z-10" pose="slumped" />
                   </div>
-                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">The weight of chaos.</h3>
-                  <p className="text-white/70 font-bold text-lg">Communication shouldn't be a burden.</p>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Too much work.</h3>
+                  <p className="text-white/70 font-bold text-lg">Talking to your team should be easy.</p>
                 </motion.div>
               )}
 
               {currentScene === 2 && (
-                <motion.div 
+                <motion.div
                   key="scene2"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -271,16 +271,16 @@ const LoginPage = () => {
                     >
                       <Lightbulb size={48} className="text-yellow-400 fill-yellow-400/40 drop-shadow-[0_0_20px_#facc15]" />
                     </motion.div>
-                    
+
                     <ArticulatedBuilder color="#ffffff" className="w-24 h-36 relative z-10" pose="beaconLook" />
                   </div>
-                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Finding the signal.</h3>
-                  <p className="text-white/70 font-bold text-lg">BitStream illuminates the path forward.</p>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Find what matters.</h3>
+                  <p className="text-white/70 font-bold text-lg">BitStream helps you see clearly.</p>
                 </motion.div>
               )}
 
               {currentScene === 3 && (
-                <motion.div 
+                <motion.div
                   key="scene3"
                   initial={{ opacity: 0, x: -50 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -320,8 +320,8 @@ const LoginPage = () => {
                       />
                     ))}
                   </div>
-                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Enter the flow state.</h3>
-                  <p className="text-white/70 font-bold text-lg">Where focus meets frictionless power.</p>
+                  <h3 className="text-3xl font-black text-white tracking-tight mb-2">Get in the zone.</h3>
+                  <p className="text-white/70 font-bold text-lg">Work faster without any distractions.</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -336,13 +336,13 @@ const LoginPage = () => {
             </h2>
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="bg-white border-[4px] border-black rounded-[2.5rem] p-8 shadow-[12px_12px_0_0_#000] relative overflow-hidden group hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-default"
           >
-            <motion.div 
-              animate={{ 
+            <motion.div
+              animate={{
                 rotate: [0, 90, 180, 270, 360],
                 scale: [1, 1.2, 1]
               }}
@@ -358,7 +358,7 @@ const LoginPage = () => {
               </div>
             </div>
             <p className="font-bold text-gray-600 leading-relaxed relative z-10">
-              "BitStream is the backbone of our dev workflow. It's not just a tool; it's our engine."
+              "BitStream is the main tool for our work. It's what keeps us moving."
             </p>
           </motion.div>
         </div>

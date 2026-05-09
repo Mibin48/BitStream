@@ -146,6 +146,13 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-bg-primary text-black font-sans selection:bg-purple-500 selection:text-white overflow-x-hidden relative">
+      {/* Global Blueprint Grid Overlay */}
+      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50"
+        style={{
+          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
+          backgroundSize: '40px 40px'
+        }} />
+
 
       {/* Scroll Progress Bar */}
       <motion.div
@@ -264,7 +271,7 @@ const LandingPage = () => {
               className="flex flex-wrap items-center gap-4 pt-4"
             >
               <Link
-                to="/signup"
+                to="/dashboard"
                 className="bg-green-500 border-[2.5px] border-black px-8 py-3.5 rounded-xl font-black text-base text-white hover:bg-green-600 hover:-translate-y-1 transition-all active:scale-95 flex items-center gap-2 group"
                 style={{ boxShadow: '0 4px 0 0 #0F172A' }}
               >
