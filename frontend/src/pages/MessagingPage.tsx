@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search, Plus, Phone, MoreVertical, Send, Smile, Bold, Italic, Link2,
   Hash, Paperclip, Video, X, Zap, Mic, Camera
@@ -27,7 +27,15 @@ const MessagingPage = () => {
   const [activeConvo, setActiveConvo] = useState<number | null>(null);
   const [messageText, setMessageText] = useState('');
   const [filter, setFilter] = useState<'all' | 'unread' | 'dms'>('all');
+  const [joiningRoom, setJoiningRoom] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const handleJoinVoice = (roomName: string) => {
+    setJoiningRoom(roomName);
+    setTimeout(() => {
+      navigate('/voice');
+    }, 1800);
+  };
 
   const filtered = conversations.filter(c => {
     if (filter === 'unread') return c.unread > 0;
@@ -46,7 +54,47 @@ const MessagingPage = () => {
   }, [messageText]);
 
   return (
-    <div className="flex-1 flex overflow-hidden px-8 pt-2 pb-4 gap-8 bg-gradient-to-tr from-pink-50/20 via-white to-purple-50/20">
+    <div className="flex-1 flex overflow-hidden px-8 pt-2 pb-4 gap-8 bg-gradient-to-tr from-pink-50/20 via-white to-purple-50/20 relative">
+      <AnimatePresence>
+        {joiningRoom && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#0F172A]/90 backdrop-blur-2xl"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="relative"
+            >
+              <div className="w-48 h-48 rounded-[3rem] bg-gradient-to-br from-[#8b8abc] to-[#c5f06c] animate-pulse blur-3xl opacity-20 absolute -inset-4" />
+              <div className="w-40 h-40 rounded-[2.5rem] bg-white/5 border border-white/10 flex flex-col items-center justify-center gap-4 relative z-10">
+                <Mic size={40} className="text-[#c5f06c] animate-bounce" />
+                <div className="flex gap-1">
+                  {[0, 1, 2].map(i => (
+                    <motion.div
+                      key={i}
+                      animate={{ scaleY: [1, 2, 1] }}
+                      transition={{ repeat: Infinity, duration: 0.5, delay: i * 0.1 }}
+                      className="w-1 h-3 bg-white/30 rounded-full"
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="mt-8 text-center"
+            >
+              <h3 className="text-2xl font-black text-white tracking-tight mb-2">Joining {joiningRoom}</h3>
+              <p className="text-[#8b8abc] font-bold uppercase tracking-widest text-[10px]">Encrypting Voice Channel...</p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* Unified Messaging Container */}
       <div className="flex-1 bg-white rounded-[2.5rem] border border-slate-200 shadow-sm flex overflow-hidden">
         {/* Sidebar */}
@@ -135,7 +183,7 @@ const MessagingPage = () => {
                 ].map((room) => (
                   <button
                     key={room.name}
-                    onClick={() => navigate('/voice')}
+                    onClick={() => handleJoinVoice(room.name)}
                     className="w-full flex items-center justify-between p-3 rounded-2xl hover:bg-slate-50 transition-all group"
                   >
                     <div className="flex items-center gap-3">

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Folder, FolderOpen, File, FileText, Archive,
@@ -233,13 +233,17 @@ const FolderCard = ({ folder, onClick }: { folder: FolderNode; onClick: () => vo
 };
 
 // --- File Row ---
-const FileRow = ({ file, view }: { file: FileItem; view: 'list' | 'grid' }) => {
+const FileRow = ({ file, view, isSelected, onSelect }: { 
+  file: FileItem; view: 'list' | 'grid'; isSelected: boolean; onSelect: (id: number) => void 
+}) => {
   const [hovered, setHovered] = useState(false);
   if (view === 'grid') {
     return (
       <motion.div
         whileHover={{ y: -3 }}
-        className="bg-white border border-slate-100 rounded-2xl p-4 flex flex-col gap-3 shadow-sm hover:shadow-md hover:border-slate-200 transition-all cursor-pointer group"
+        onClick={() => onSelect(file.id)}
+        className={`border rounded-2xl p-4 flex flex-col gap-3 transition-all cursor-pointer group shadow-sm hover:shadow-md
+          ${isSelected ? 'bg-[#8b8abc]/5 border-[#8b8abc] ring-2 ring-[#8b8abc]/20' : 'bg-white border-slate-100 hover:border-slate-200'}`}
       >
         <FileIcon type={file.type} size={20} />
         <div>
@@ -258,7 +262,9 @@ const FileRow = ({ file, view }: { file: FileItem; view: 'list' | 'grid' }) => {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-slate-50 transition-all cursor-pointer group border border-transparent hover:border-slate-100"
+      onClick={() => onSelect(file.id)}
+      className={`flex items-center gap-4 px-4 py-3 rounded-xl transition-all cursor-pointer group border
+        ${isSelected ? 'bg-[#8b8abc]/10 border-[#8b8abc] shadow-sm' : 'hover:bg-slate-50 border-transparent hover:border-slate-100'}`}
     >
       <FileIcon type={file.type} />
       <div className="flex-1 min-w-0">
@@ -274,18 +280,20 @@ const FileRow = ({ file, view }: { file: FileItem; view: 'list' | 'grid' }) => {
         <span className="text-xs font-semibold text-slate-500 truncate">{file.addedBy}</span>
       </div>
       <span className="hidden lg:block text-[11px] font-semibold text-slate-400 w-28 text-right shrink-0">{file.modified}</span>
-      <AnimatePresence>
-        {hovered && (
-          <motion.div initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 8 }}
-            className="flex items-center gap-1">
-            {[Download, Share2, Star, Trash2].map((Icon, i) => (
-              <button key={i} className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors">
-                <Icon size={13} strokeWidth={2} />
-              </button>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div className="w-32 flex justify-end">
+        <AnimatePresence>
+          {(hovered || isSelected) && (
+            <motion.div initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 8 }}
+              className="flex items-center gap-1">
+              {[Download, Share2, Star, Trash2].map((Icon, i) => (
+                <button key={i} className="w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors">
+                  <Icon size={13} strokeWidth={2} />
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
@@ -296,10 +304,28 @@ const FilesPage = () => {
   const [search, setSearch] = useState('');
   const [view, setView] = useState<'list' | 'grid'>('list');
   const [sideTab, setSideTab] = useState<'folders' | 'recent' | 'starred'>('folders');
+  const [selectedFileId, setSelectedFileId] = useState<number | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   const displayFiles = activeFolder?.folderFiles ?? recentFiles;
   const displayFolders = activeFolder?.children ?? fileTree;
   const filtered = displayFiles.filter(f => f.name.toLowerCase().includes(search.toLowerCase()));
+
+  const selectedFile = displayFiles.find(f => f.id === selectedFileId);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space' && selectedFileId) {
+        e.preventDefault();
+        setShowPreview(prev => !prev);
+      }
+      if (e.key === 'Escape') {
+        setShowPreview(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedFileId]);
 
   return (
     <div className="flex-1 flex overflow-hidden bg-[#F1F5F9] gap-5 p-5">
@@ -459,12 +485,28 @@ const FilesPage = () => {
                   <div className="w-32 shrink-0" />
                 </div>
                 <div className="space-y-0.5">
-                  {filtered.map(f => <FileRow key={f.id} file={f} view="list" />)}
+                  {filtered.map(f => (
+                    <FileRow 
+                      key={f.id} 
+                      file={f} 
+                      view="list" 
+                      isSelected={selectedFileId === f.id} 
+                      onSelect={setSelectedFileId} 
+                    />
+                  ))}
                 </div>
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
-                {filtered.map(f => <FileRow key={f.id} file={f} view="grid" />)}
+                {filtered.map(f => (
+                  <FileRow 
+                    key={f.id} 
+                    file={f} 
+                    view="grid" 
+                    isSelected={selectedFileId === f.id} 
+                    onSelect={setSelectedFileId} 
+                  />
+                ))}
               </div>
             )}
 
@@ -480,6 +522,83 @@ const FilesPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Quick Peek Modal */}
+      <AnimatePresence>
+        {showPreview && selectedFile && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4"
+            onClick={() => setShowPreview(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              onClick={e => e.stopPropagation()}
+              className="bg-white rounded-[3rem] shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden flex flex-col"
+            >
+              <div className="h-64 bg-[#F8FAFC] flex items-center justify-center relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#8b8abc]/5 to-transparent" />
+                <motion.div 
+                  initial={{ rotate: -10, scale: 0.8 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  transition={{ type: 'spring', damping: 15 }}
+                >
+                  <FileIcon type={selectedFile.type} size={64} />
+                </motion.div>
+                <button 
+                  onClick={() => setShowPreview(false)}
+                  className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-900 transition-colors"
+                >
+                  <Filter size={18} className="rotate-45" /> {/* Close icon substitute */}
+                </button>
+              </div>
+              
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-2xl font-black text-slate-900 tracking-tight">{selectedFile.name}</h2>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">
+                      {selectedFile.type.toUpperCase()} • {selectedFile.size}
+                    </p>
+                  </div>
+                  <button className="w-12 h-12 rounded-2xl bg-[#c5f06c] flex items-center justify-center shadow-lg shadow-[#c5f06c]/20 border-b-4 border-[#a3c959]">
+                    <Download size={20} className="text-[#1a1a1a]" strokeWidth={2.5} />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Modified</p>
+                    <p className="text-sm font-black text-slate-700">{selectedFile.modified}</p>
+                  </div>
+                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Added By</p>
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-lg flex items-center justify-center text-[8px] font-black text-white" style={{ background: selectedFile.avatarColor }}>
+                        {selectedFile.avatar}
+                      </div>
+                      <p className="text-sm font-black text-slate-700">{selectedFile.addedBy}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <button className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 shadow-xl shadow-slate-900/10">
+                    Open File
+                  </button>
+                  <button className="px-6 py-4 bg-white border border-slate-200 text-slate-600 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95">
+                    Share
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

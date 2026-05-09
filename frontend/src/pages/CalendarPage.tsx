@@ -40,6 +40,33 @@ const events: CalEvent[] = [
 const CalendarPage = () => {
   const [view, setView] = useState<'daily' | 'weekly' | 'monthly'>('weekly');
   const [showNewEvent, setShowNewEvent] = useState(false);
+  const [localEvents, setLocalEvents] = useState<CalEvent[]>(events);
+  const [isResizing, setIsResizing] = useState<number | null>(null);
+
+  // Resize Logic
+  const handleResizeStart = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation();
+    setIsResizing(id);
+
+    const initialY = e.clientY;
+    const initialHeight = localEvents.find(ev => ev.id === id)?.height || 0;
+
+    const onMouseMove = (moveEvent: MouseEvent) => {
+      const deltaY = moveEvent.clientY - initialY;
+      setLocalEvents(prev => prev.map(ev => 
+        ev.id === id ? { ...ev, height: Math.max(30, initialHeight + deltaY) } : ev
+      ));
+    };
+
+    const onMouseUp = () => {
+      setIsResizing(null);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+  };
 
   return (
     <div className="flex-1 flex overflow-hidden p-6 gap-6 relative bg-gradient-to-br from-[#9c9bcf] via-[#8b8abc] to-[#7a79a8] rounded-[2.5rem] m-4 shadow-xl">
@@ -212,16 +239,26 @@ const CalendarPage = () => {
                     <div key={`h-${i}`} className="absolute w-full border-t border-dashed border-slate-200" style={{ top: `${i * 100 + 40}px` }}></div>
                   ))}
                   <div className="absolute inset-0 p-8">
-                    {events.filter(e => e.dayIndex === 2).map(ev => (
+                    {localEvents.filter(e => e.dayIndex === 2).map(ev => (
                       <motion.div
                         key={ev.id}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className={`mb-4 rounded-2xl p-4 shadow-sm cursor-pointer border border-white/20
+                        className={`mb-4 rounded-2xl p-4 shadow-sm cursor-pointer border border-white/20 relative group
                           ${ev.type === 'lime' ? 'bg-[#c5f06c] text-[#1a1a1a]' : 'bg-[#8b8abc] text-white'}`}
+                        style={{ height: `${ev.height}px` }}
                       >
                         <div className="font-bold text-sm mb-1">{ev.title}</div>
                         <div className="text-[10px] font-semibold opacity-80">{ev.time}</div>
+                        {/* Resize Handle */}
+                        <div 
+                          onMouseDown={(e) => handleResizeStart(e, ev.id)}
+                          className="absolute bottom-1 left-1/2 -translate-x-1/2 w-8 h-1.5 bg-black/10 rounded-full cursor-ns-resize opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-0.5"
+                        >
+                          <div className="w-1 h-1 rounded-full bg-black/20" />
+                          <div className="w-1 h-1 rounded-full bg-black/20" />
+                          <div className="w-1 h-1 rounded-full bg-black/20" />
+                        </div>
                       </motion.div>
                     ))}
                   </div>
@@ -270,13 +307,13 @@ const CalendarPage = () => {
                   <div className="absolute inset-0 grid grid-cols-6">
                     {[0, 1, 2, 3, 4, 5].map(colIndex => (
                       <div key={colIndex} className="relative w-full h-full">
-                        {events.filter(e => e.dayIndex === colIndex).map(ev => (
+                        {localEvents.filter(e => e.dayIndex === colIndex).map(ev => (
                           <motion.div
                             key={ev.id}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             whileHover={{ scale: 1.02 }}
-                            className={`absolute left-2 right-2 rounded-2xl p-3 shadow-sm cursor-pointer border border-white/20
+                            className={`absolute left-2 right-2 rounded-2xl p-3 shadow-sm cursor-pointer border border-white/20 group
                               ${ev.type === 'lime' ? 'bg-[#c5f06c] text-[#1a1a1a]' :
                                 ev.type === 'dark' ? 'bg-[#8b8abc] text-white' :
                                   'bg-[#a09ece] text-white'}`}
@@ -284,6 +321,11 @@ const CalendarPage = () => {
                           >
                             <div className="font-bold text-xs leading-tight mb-1 truncate">{ev.title}</div>
                             <div className={`text-[9px] font-semibold opacity-80`}>{ev.time}</div>
+                            {/* Resize Handle */}
+                            <div 
+                              onMouseDown={(e) => handleResizeStart(e, ev.id)}
+                              className="absolute bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-black/10 rounded-full cursor-ns-resize opacity-0 group-hover:opacity-100 transition-opacity"
+                            />
                           </motion.div>
                         ))}
                       </div>

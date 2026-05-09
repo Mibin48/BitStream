@@ -1,12 +1,10 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Mic, MicOff, PhoneOff, Users, Settings, Plus,
   MessageSquare, Hand, ScreenShare, Volume2,
-  VolumeX, Shield, Lock, Globe, Sparkles,
-  X, Zap, Play, Check, Share2, Disc,
-  ChevronLeft, MoreVertical, Layout, Maximize2,
+  VolumeX, Lock, X, Zap, ChevronLeft, MoreVertical, 
   Smile, Activity
 } from 'lucide-react';
 
@@ -31,7 +29,7 @@ const MOCK_PARTICIPANTS: Participant[] = [
 ];
 
 const VoiceCallPage = () => {
-  const { roomId } = useParams();
+  useParams(); // roomId exists in URL but unused here for now
   const navigate = useNavigate();
   const [isSelfMuted, setIsSelfMuted] = useState(false);
   const [isSelfDeafened, setIsSelfDeafened] = useState(false);
@@ -315,16 +313,21 @@ const VoiceCallPage = () => {
       </div>
 
       {/* Floating Reaction Layer */}
-      <div className="absolute inset-x-0 bottom-32 pointer-events-none z-40 overflow-hidden h-64">
+      <div className="absolute inset-0 pointer-events-none z-40 overflow-hidden">
         <AnimatePresence>
           {activeReactions.map(r => (
             <motion.div
               key={r.id}
-              initial={{ y: 200, opacity: 0, x: `${r.x}%` }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -200, opacity: 0 }}
-              transition={{ duration: 3, ease: "easeOut" }}
-              className="absolute text-4xl"
+              initial={{ y: '110vh', x: `${r.x}vw`, scale: 0, opacity: 0, rotate: 0 }}
+              animate={{ 
+                y: '-20vh', 
+                x: `${r.x + (Math.random() * 20 - 10)}vw`,
+                opacity: [0, 1, 1, 0],
+                scale: [0.5, 1.5, 1.2, 1],
+                rotate: [0, 45, -45, 0]
+              }}
+              transition={{ duration: 4, ease: "circOut" }}
+              className="absolute text-5xl filter drop-shadow-[0_10px_10px_rgba(0,0,0,0.3)]"
             >
               {r.emoji}
             </motion.div>
