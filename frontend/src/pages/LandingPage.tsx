@@ -9,6 +9,8 @@ import {
 import { TestimonialsColumn } from '../components/ui/testimonials-columns-1';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import InfiniteGridBackground from '../components/ui/InfiniteGridBackground';
+
 
 const features = [
   {
@@ -146,12 +148,13 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-bg-primary text-black font-sans selection:bg-purple-500 selection:text-white overflow-x-hidden relative">
-      {/* Global Blueprint Grid Overlay */}
-      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50"
-        style={{
-          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }} />
+      {/* Global Dynamic Infinite Grid Background */}
+      <InfiniteGridBackground opacity={0.1} className="z-50" />
+
+
+
+
+
 
 
       {/* Scroll Progress Bar */}
@@ -923,9 +926,7 @@ const LandingPage = () => {
 
       {/* 7. CTA - The Launchpad */}
       <section id="waitlist" className="py-32 px-6 bg-white scroll-mt-20 relative overflow-hidden">
-        {/* Background Dot Pattern */}
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
-             style={{ backgroundImage: 'radial-gradient(#000 2px, transparent 2px)', backgroundSize: '24px 24px' }} />
+
         
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="bg-yellow-400 border-[4px] border-black rounded-[3rem] p-12 lg:p-20 relative overflow-hidden"

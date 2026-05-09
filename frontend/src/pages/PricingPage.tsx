@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Check, X, Plus, Minus } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import InfiniteGridBackground from '../components/ui/InfiniteGridBackground';
+
 
 const PricingPage = () => {
   const [isYearly, setIsYearly] = useState(true);
@@ -11,12 +13,14 @@ const PricingPage = () => {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-black font-sans selection:bg-purple-500 selection:text-white relative overflow-x-hidden">
-      {/* Global Blueprint Grid Overlay */}
-      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50"
-        style={{
-          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }} />
+      {/* Global Dynamic Infinite Grid Background */}
+      <InfiniteGridBackground opacity={0.1} className="z-50" />
+
+
+
+
+
+
       <Navbar />
 
       {/* Hero */}
@@ -305,12 +309,16 @@ const PricingPage = () => {
 
       {/* FAQ: Knowledge Base Grid */}
       <section className="py-24 px-6 relative overflow-hidden border-t-[4px] border-black">
-        {/* Background Blueprint Grid */}
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
-          style={{
-            backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-            backgroundSize: '40px 40px'
-          }} />
+        {/* Background Blueprint Grid - Simplified internal usage if fixed background is not desired */}
+        <div className="absolute inset-0 opacity-[0.05] pointer-events-none overflow-hidden">
+          <InfiniteGridBackground opacity={0.1} className="absolute" />
+
+
+
+
+
+        </div>
+
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="font-black text-5xl md:text-6xl mb-4 tracking-tighter">FAQ</h2>

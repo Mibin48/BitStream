@@ -3,29 +3,36 @@ import { motion } from 'framer-motion';
 import { MessageSquare, Video, Calendar, Headphones, Folders, Shield, Play, ArrowRight, Star, Mic, Lock, Server, Globe, MicOff, VideoOff, PhoneOff, Monitor, MoreHorizontal, Smile, Send, Layout, CheckCircle2, Clock, Users, ShieldAlert, ShieldCheck, Hand, Signal, MousePointer2, Activity, Zap, Cpu, Database } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import InfiniteGridBackground from '../components/ui/InfiniteGridBackground';
+import { Logo } from '../components/ui/Logo';
+
+
 
 const FeaturesPage = () => {
   const [activeTab, setActiveTab] = useState('Messaging');
 
   const tabs = [
-    { name: 'Messaging', icon: MessageSquare, color: 'bg-purple-500', desc: "Fast chat for busy teams. Organize chats and share code easily.", benefits: ["Threaded Discussions", "Markdown Support", "Custom Emojis", "Real-time Presence"] },
-    { name: 'Video', icon: Video, color: 'bg-green-500', desc: "Clear video calls inside your workspace. No links or codes needed.", benefits: ["4K Screen Sharing", "Auto-Recording", "AI Noise Cancellation", "Interactive Polls"] },
-    { name: 'Calendar', icon: Calendar, color: 'bg-cyan-500', desc: "See when everyone is free. Schedule meetings around your work.", benefits: ["Calendar Sync", "Timezone Intelligence", "Shared Calendars", "Meeting Transcripts"] },
-    { name: 'Voice', icon: Headphones, color: 'bg-pink-500', desc: "Join audio rooms to talk anytime. Clear voice that feels like the office.", benefits: ["Spatial Audio", "Global Shortcut", "Low Latency", "Integrated Chat"] },
-    { name: 'Workspaces', icon: Folders, color: 'bg-orange-500', desc: "Keep projects and teams in their own safe spaces.", benefits: ["RBAC Permissions", "Custom Branding", "Multi-tenant", "Guest Access"] },
-    { name: 'Security', icon: Shield, color: 'bg-yellow-500', desc: "Strong safety for all your chats. Your data is always private.", benefits: ["AES-256 Encryption", "SSO & SAML", "Compliance Logs", "Device Management"] }
+    { name: 'Messaging', icon: MessageSquare, color: 'bg-purple-500', desc: "Fast chat for your team. Group chats, threads, and easy file sharing.", benefits: ["Organized Threads", "Markdown Support", "Custom Emojis", "Who's Online"] },
+    { name: 'Video', icon: Video, color: 'bg-green-500', desc: "Simple video calls. Meet with one click, share your screen, and record calls.", benefits: ["Screen Sharing", "Auto-Recording", "Noise Removal", "Interactive Polls"] },
+    { name: 'Calendar', icon: Calendar, color: 'bg-cyan-500', desc: "Smart calendar. Find the best time to meet and sync with your tools.", benefits: ["Sync Everywhere", "Local Time Support", "Shared Calendars", "Meeting Notes"] },
+    { name: 'Voice', icon: Headphones, color: 'bg-pink-500', desc: "Voice rooms. Jump in to talk anytime, just like sitting next to each other.", benefits: ["Clear Audio", "Easy Shortcuts", "Low Latency", "Chat Included"] },
+    { name: 'Workspaces', icon: Folders, color: 'bg-orange-500', desc: "Workspaces. Separate spaces for different teams and projects.", benefits: ["Team Controls", "Custom Branding", "Multiple Teams", "Guest Access"] },
+    { name: 'Security', icon: Shield, color: 'bg-yellow-500', desc: "Solid security. Your data is encrypted and safe with us.", benefits: ["Safe & Private", "Single Sign-On", "Access Logs", "Device Control"] }
+
   ];
 
   const currentTab = tabs.find(t => t.name === activeTab) || tabs[0];
 
   return (
     <div className="min-h-screen bg-bg-primary text-black font-sans selection:bg-purple-500 selection:text-white overflow-x-hidden relative">
-      {/* Global Blueprint Grid Overlay */}
-      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50"
-        style={{
-          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }} />
+      {/* Global Dynamic Infinite Grid Background */}
+      <InfiniteGridBackground opacity={0.1} className="z-50" />
+
+
+
+
+
+
 
       <Navbar />
 
@@ -60,7 +67,8 @@ const FeaturesPage = () => {
             className="inline-flex items-center gap-2 bg-purple-100 border-[2.5px] border-purple-600 px-4 py-1.5 rounded-full mb-8 shadow-[3px_3px_0_0_#7C3AED]"
           >
             <Star size={14} strokeWidth={3} className="text-purple-600" />
-            <span className="font-black text-purple-700 text-xs tracking-widest uppercase">The Complete Feature Set</span>
+            <span className="font-black text-purple-700 text-xs tracking-widest uppercase">Built for Modern Teams</span>
+
           </motion.div>
 
           <motion.h1
@@ -131,11 +139,15 @@ const FeaturesPage = () => {
       {/* Interactive Feature Tabs */}
       <section className="py-32 px-6 bg-[#FEF9C3] relative overflow-hidden border-t-[4px] border-black">
         {/* Background Blueprint Grid */}
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
-          style={{
-            backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-            backgroundSize: '40px 40px'
-          }} />
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+          <InfiniteGridBackground opacity={0.1} className="absolute" />
+
+
+
+
+
+        </div>
+
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="flex flex-wrap justify-center gap-2 mb-12">
             {tabs.map(tab => (
@@ -699,12 +711,10 @@ const FeaturesPage = () => {
       </section>
       {/* Platform Deep Dive: Neobrutalist Bento Mirror */}
       <section className="py-32 px-6 bg-[#DDD6FE] relative overflow-hidden border-t-[4px] border-black">
-        {/* Background Blueprint Grid */}
-        <div className="absolute inset-0 opacity-[0.07] pointer-events-none"
-          style={{
-            backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-            backgroundSize: '40px 40px'
-          }} />
+        <div className="absolute inset-0 opacity-[0.07] pointer-events-none">
+          <InfiniteGridBackground opacity={0.1} className="absolute" />
+        </div>
+
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-24">
             <motion.div
@@ -712,11 +722,14 @@ const FeaturesPage = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               className="inline-block px-8 py-2.5 bg-black text-white rounded-full font-black text-sm uppercase tracking-[0.5em] mb-8 shadow-[8px_8px_0_0_#7C3AED]"
             >
-              Core Architecture
+              How it Works
+
             </motion.div>
             <h2 className="font-black text-7xl md:text-7xl tracking-tighter leading-[0.8] mb-4">
-              Powering <span className="text-purple-500">Innovation.</span>
+              Built to <span className="text-purple-500">Grow.</span>
             </h2>
+
+
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 auto-rows-[140px]">
@@ -727,8 +740,10 @@ const FeaturesPage = () => {
               className="md:col-span-3 md:row-span-4 bg-[#FFD6E0] border-[4px] border-black rounded-[3rem] p-8 flex flex-col items-center justify-between text-center relative overflow-hidden shadow-[12px_12px_0_0_#000]"
             >
               <div className="space-y-3 w-full">
-                <div className="font-black text-2xl text-black uppercase tracking-tighter">System Reliability</div>
-                <p className="text-xs font-bold text-gray-700 uppercase leading-relaxed whitespace-normal">Zero-latency failover protocols across 45+ availability zones.</p>
+                <div className="font-black text-2xl text-black uppercase tracking-tighter">Never Down</div>
+                <p className="text-xs font-bold text-gray-700 uppercase leading-relaxed whitespace-normal">Fast and reliable everywhere in the world.</p>
+
+
               </div>
 
               <div className="flex flex-col items-center my-6">
@@ -760,15 +775,18 @@ const FeaturesPage = () => {
               <div className="space-y-4 pt-4 border-t-2 border-black/5 w-full">
                 <div>
                   <div className="font-black text-2xl mb-1 tracking-tighter">4.2M</div>
-                  <div className="text-sm font-bold text-black leading-tight uppercase tracking-wider">Sync Requests <br /> Per Second</div>
+                  <div className="text-sm font-bold text-black leading-tight uppercase tracking-wider">Messages <br /> Synced</div>
                 </div>
+
                 <p className="text-[10px] font-bold text-gray-500 uppercase leading-relaxed whitespace-normal">
-                  Our global failover architecture ensures that peak network load never compromises synchronization speed or data integrity.
+                  Our system handles heavy traffic without slowing down or losing your data.
                 </p>
+
                 <div className="flex justify-between items-center text-[10px] font-black uppercase text-purple-600 bg-purple-50 p-2 rounded-xl border border-purple-200">
-                  <span>Latency: &lt;45ms</span>
-                  <span>Jitter: 0.2ms</span>
+                  <span>Fast Response</span>
+                  <span>No Lag</span>
                 </div>
+
               </div>
             </motion.div>
 
@@ -783,10 +801,12 @@ const FeaturesPage = () => {
                   <Activity size={32} fill="black" />
                 </div>
                 <div className="mt-2">
-                  <div className="font-black text-sm text-black uppercase mb-1">Stream Throughput</div>
+                  <div className="font-black text-sm text-black uppercase mb-1">High Speed</div>
+
                   <p className="text-[11px] font-bold text-gray-800 uppercase tracking-tight leading-relaxed whitespace-normal">
-                    Massive scale data ingestion handling petabytes of real-time streams with sub-millisecond precision.
+                    Handle huge amounts of data instantly with no lag.
                   </p>
+
                 </div>
               </div>
             </motion.div>
@@ -799,14 +819,16 @@ const FeaturesPage = () => {
               <div className="flex flex-col h-full justify-between">
                 <div className="flex justify-between items-start">
                   <div className="text-left flex-1">
-                    <div className="text-xs font-bold text-gray-700 mb-1 uppercase tracking-widest">Active Edge Nodes</div>
+                    <div className="text-xs font-bold text-gray-700 mb-1 uppercase tracking-widest">Global Servers</div>
+
                     <div className="font-black text-6xl tracking-tighter">62K+</div>
                     <div className="text-blue-700 font-black text-xl">+18.4%</div>
                   </div>
                 </div>
                 <p className="text-[11px] font-bold text-gray-800 uppercase tracking-tight leading-relaxed whitespace-normal mt-2">
-                  Distributed network of high-performance edge nodes serving content closer to your global users.
+                  A global network that keeps your workspace fast, no matter where you are.
                 </p>
+
               </div>
             </motion.div>
 
@@ -816,10 +838,12 @@ const FeaturesPage = () => {
               className="md:col-span-3 md:row-span-4 bg-[#C084FC] border-[4px] border-black rounded-[3rem] p-8 flex flex-col justify-between shadow-[12px_12px_0_0_#000]"
             >
               <div>
-                <div className="font-black text-2xl mb-4 leading-tight uppercase tracking-tighter">Global Infrastructure</div>
+                <div className="font-black text-2xl mb-4 leading-tight uppercase tracking-tighter">Global Network</div>
+
                 <p className="text-xs font-bold text-black/70 uppercase mb-6 leading-relaxed whitespace-normal">
-                  Multi-cloud backbone spanning 12 providers. Guaranteed data sovereignty and regional compliance.
+                  Connected across the world. Your data stays safe and follows all rules.
                 </p>
+
                 <div className="flex -space-x-3 mb-10">
                   {[1, 2, 3, 4].map(i => (
                     <div key={i} className="w-14 h-14 rounded-full border-4 border-black bg-white flex items-center justify-center font-black text-sm">US-{i}</div>
@@ -834,9 +858,10 @@ const FeaturesPage = () => {
                   <div className="text-black font-black text-base uppercase">Data Centers</div>
                 </div>
                 <div className="p-4 bg-black/10 rounded-2xl border-2 border-black/20">
-                  <div className="text-[11px] font-black uppercase text-black/50 mb-1">Compliance</div>
-                  <div className="text-xs font-black uppercase text-black">SOC2 • GDPR • HIPAA • PCI</div>
+                  <div className="text-[11px] font-black uppercase text-black/50 mb-1">Security</div>
+                  <div className="text-xs font-black uppercase text-black">Safe & Secure</div>
                 </div>
+
               </div>
             </motion.div>
 
@@ -845,10 +870,13 @@ const FeaturesPage = () => {
               className="md:col-span-6 md:row-span-4 bg-[#FFD6E0] border-[4px] border-black rounded-[4rem] p-12 relative overflow-hidden flex flex-col items-center justify-center shadow-[16px_16px_0_0_#000]"
             >
               <div className="absolute top-12 left-12">
-                <div className="font-black text-4xl uppercase tracking-tighter mb-2">Unified Sync Engine</div>
+                <div className="font-black text-4xl uppercase tracking-tighter mb-2">The Heart</div>
+
                 <p className="text-sm font-bold text-gray-700 max-w-sm uppercase leading-relaxed whitespace-normal">
-                  The heart of BitStream. A unified core for real-time synchronization, streaming, and distributed edge computing.
+                  The core of BitStream. A fast system that keeps your team updated instantly.
                 </p>
+
+
               </div>
 
               <div className="relative w-full h-full flex items-center justify-center mt-12">
@@ -866,7 +894,8 @@ const FeaturesPage = () => {
                     className="absolute top-0 right-0 bg-white p-5 border-[3px] border-black rounded-3xl shadow-[8px_8px_0_0_#000]"
                   >
                     <div className="font-black text-sm">19,46%</div>
-                    <div className="text-[8px] font-bold text-gray-400 uppercase tracking-tighter">Sync Integrity</div>
+                    <div className="text-[8px] font-bold text-gray-400 uppercase tracking-tighter">Data Quality</div>
+
                     <div className="text-green-500 font-black text-[10px] mt-1">▲ 102%</div>
                   </motion.div>
                   <motion.div
@@ -877,15 +906,17 @@ const FeaturesPage = () => {
                     <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white">
                       <Play size={12} fill="currentColor" />
                     </div>
-                    <div className="font-black text-sm uppercase">26,807 events</div>
+                    <div className="font-black text-sm uppercase">Live updates</div>
+
                   </motion.div>
                 </div>
               </div>
 
               <div className="absolute bottom-12 right-12 text-right">
-                <div className="font-black text-2xl uppercase tracking-widest text-black/40">Rust-Native Core</div>
-                <div className="font-black text-sm uppercase text-purple-600">Max Performance Guaranteed</div>
+                <div className="font-black text-2xl uppercase tracking-widest text-black/40">Modern Tech</div>
+                <div className="font-black text-sm uppercase text-purple-600">Fastest Performance</div>
               </div>
+
             </motion.div>
 
             {/* 6. BOTTOM LEFT: ARCHITECTURE (Yellow, Tall) */}
@@ -895,19 +926,23 @@ const FeaturesPage = () => {
             >
               <div>
                 <div className="font-black text-3xl tracking-tighter leading-[0.9] uppercase mb-6">
-                  Stream <br /> Architecture <br /> Layer
+                  Instant <br /> Sync <br /> Tech
                 </div>
+
                 <p className="text-xs font-bold text-black/70 uppercase leading-relaxed whitespace-normal">
-                  Proprietary L-Cache technology ensures 99th percentile latency remains under 45ms even during peak bursts.
+                  Smart tech keeps things fast even when everyone is working.
                 </p>
+
+
               </div>
               <div className="relative flex-1 flex items-center justify-center gap-4 my-6">
                 <div className="w-24 h-40 bg-purple-500 border-[4px] border-black rounded-full shadow-[6px_6px_0_0_#000]" />
                 <div className="w-20 h-32 bg-cyan-50 border-[4px] border-black rounded-full shadow-[6px_6px_0_0_#000] mt-10" />
               </div>
               <div className="mt-4 pt-6 border-t-2 border-black/10">
-                <div className="text-[11px] font-black uppercase text-black/40 mb-1">Vectorized Processing</div>
-                <div className="text-sm font-black uppercase text-black">Stream-Native Storage</div>
+                <div className="text-[11px] font-black uppercase text-black/40 mb-1">Smart Storage</div>
+                <div className="text-sm font-black uppercase text-black">Built-in Archiving</div>
+
               </div>
             </motion.div>
 
@@ -917,11 +952,8 @@ const FeaturesPage = () => {
               className="md:col-span-3 md:row-span-2 bg-white border-[4px] border-black rounded-[3rem] p-10 flex flex-col items-center justify-center text-center shadow-[12px_12px_0_0_#000]"
             >
               <div className="w-16 h-16 mb-4">
-                <svg viewBox="0 0 100 100" fill="none" className="w-full h-full">
-                  <circle cx="50" cy="40" r="25" stroke="black" strokeWidth="8" />
-                  <circle cx="35" cy="65" r="25" stroke="black" strokeWidth="8" />
-                  <circle cx="65" cy="65" r="25" stroke="black" strokeWidth="8" />
-                </svg>
+                <Logo size={64} strokeWidth={8} />
+
               </div>
               <div className="font-black text-2xl tracking-[0.2em] uppercase">BITSTREAM</div>
             </motion.div>
@@ -931,8 +963,9 @@ const FeaturesPage = () => {
               whileHover={{ translate: '-4px, -4px' }}
               className="md:col-span-3 md:row-span-2 bg-[#C084FC] border-[4px] border-black rounded-[3rem] p-8 shadow-[12px_12px_0_0_#000]"
             >
-              <div className="font-black text-3xl mb-1 uppercase text-white tracking-tighter">Protocols</div>
-              <div className="text-xs font-bold text-white/70 mb-6 uppercase whitespace-normal leading-relaxed">Compatible with WebRTC, gRPC, and HLS protocols.</div>
+              <div className="font-black text-3xl mb-1 uppercase text-white tracking-tighter">Standards</div>
+              <div className="text-xs font-bold text-white/70 mb-6 uppercase whitespace-normal leading-relaxed">Works with the best web and video standards.</div>
+
               <div className="flex gap-3">
                 <div className="w-12 h-12 bg-black border-[2px] border-black rounded-lg shadow-[4px_4px_0_0_#FFFFFF]" />
                 <div className="w-12 h-12 bg-[#FEF08A] border-[2px] border-black rounded-lg shadow-[4px_4px_0_0_#000]" />
@@ -946,10 +979,11 @@ const FeaturesPage = () => {
               className="md:col-span-6 md:row-span-2 bg-[#FFD6E0] border-[4px] border-black rounded-[3rem] p-12 flex justify-between items-center shadow-[12px_12px_0_0_#000]"
             >
               <div className="max-w-xl">
-                <div className="font-black text-4xl mb-4 leading-tight uppercase tracking-tighter">2024 Vision & Roadmap</div>
+                <div className="font-black text-4xl mb-4 leading-tight uppercase tracking-tighter">Future Vision</div>
                 <p className="text-xs font-bold text-gray-700 uppercase tracking-widest leading-relaxed whitespace-normal">
-                  Quantum-resistant encryption, AI-driven predictive caching, and browser-native P2P protocols for the next generation of real-time sync.
+                  Next-gen security, smart caching, and faster direct connections for the next generation of team sync.
                 </p>
+
               </div>
               <motion.div
                 animate={{ rotate: 360 }}
@@ -968,12 +1002,14 @@ const FeaturesPage = () => {
 
       {/* Integration Showcase */}
       <section className="py-32 px-6 bg-[#FED7E2] relative overflow-hidden border-t-[4px] border-black">
-        {/* Background Blueprint Grid */}
-        <div className="absolute inset-0 opacity-[0.07] pointer-events-none"
-          style={{
-            backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-            backgroundSize: '40px 40px'
-          }} />
+        <div className="absolute inset-0 opacity-[0.07] pointer-events-none">
+          <InfiniteGridBackground opacity={0.1} className="absolute" />
+
+
+
+
+        </div>
+
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-24">
@@ -1057,12 +1093,14 @@ const FeaturesPage = () => {
       </section>
 
       <section className="py-32 px-6 bg-[#BAE6FD] relative overflow-hidden border-t-[4px] border-black">
-        {/* Background Blueprint Grid */}
-        <div className="absolute inset-0 opacity-[0.07] pointer-events-none"
-          style={{
-            backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-            backgroundSize: '40px 40px'
-          }} />
+        <div className="absolute inset-0 opacity-[0.07] pointer-events-none">
+          <InfiniteGridBackground opacity={0.1} className="absolute" />
+
+
+
+
+        </div>
+
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-20">
@@ -1086,12 +1124,13 @@ const FeaturesPage = () => {
             {/* Terminal Content: Spec Grid */}
             <div className="p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
-                { label: "Global Latency", value: "< 45ms", unit: "AVG", color: "text-green-400", bar: "w-[94%]", icon: Zap, desc: "P99 latency across 142 data centers." },
-                { label: "Stream Throughput", value: "4.87", unit: "PB/DAY", color: "text-blue-400", bar: "w-[88%]", icon: Activity, desc: "Total aggregate data processed daily." },
-                { label: "Edge Nodes", value: "62,400+", unit: "ACTIVE", color: "text-purple-400", bar: "w-[92%]", icon: Globe, desc: "Global points of presence for edge compute." },
-                { label: "Concurrency", value: "1.2B", unit: "REQUESTS", color: "text-yellow-400", bar: "w-[96%]", icon: Cpu, desc: "Simultaneous stream requests per second." },
-                { label: "Data Integrity", value: "99.999", unit: "% SLA", color: "text-pink-400", bar: "w-[99%]", icon: Shield, desc: "Guaranteed data retention and encryption." },
-                { label: "Cold Storage", value: "Unlimited", unit: "PB", color: "text-cyan-400", bar: "w-[100%]", icon: Database, desc: "Infinite archive capacity for stream logs." },
+                { label: "Global Speed", value: "< 45ms", unit: "AVG", color: "text-green-400", bar: "w-[94%]", icon: Zap, desc: "Lightning fast across all regions." },
+                { label: "Data Handled", value: "4.87", unit: "PB/DAY", color: "text-blue-400", bar: "w-[88%]", icon: Activity, desc: "Large-scale data processing every day." },
+                { label: "Global Points", value: "62,400+", unit: "ACTIVE", color: "text-purple-400", bar: "w-[92%]", icon: Globe, desc: "Servers located close to your team." },
+                { label: "Peak Load", value: "1.2B", unit: "REQUESTS", color: "text-yellow-400", bar: "w-[96%]", icon: Cpu, desc: "Handles billions of requests at once." },
+                { label: "Reliable Data", value: "99.999", unit: "% SLA", color: "text-pink-400", bar: "w-[99%]", icon: Shield, desc: "Your data is always safe and encrypted." },
+                { label: "Infinite Storage", value: "Unlimited", unit: "PB", color: "text-cyan-400", bar: "w-[100%]", icon: Database, desc: "Store as much history as you need." },
+
               ].map((spec, idx) => (
                 <motion.div
                   key={idx}

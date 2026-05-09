@@ -3,6 +3,8 @@ import { Code, Shield, Users, Terminal, ArrowRight, Plus, GitPullRequest, Share2
 import { motion, useScroll, useSpring } from 'framer-motion';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import InfiniteGridBackground from '../components/ui/InfiniteGridBackground';
+
 
 const AboutPage = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -29,13 +31,14 @@ const AboutPage = () => {
         style={{ scaleX }}
       />
 
-      {/* Global Blueprint Grid Overlay */}
-      <div className="fixed inset-0 opacity-[0.05] pointer-events-none z-50"
-        style={{
-          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          transform: `translate(${mousePos.x * 0.01}px, ${mousePos.y * 0.01}px)`
-        }} />
+      {/* Global Dynamic Infinite Grid Background */}
+      <InfiniteGridBackground opacity={0.1} className="z-50" />
+
+
+
+
+
+
 
       <Navbar />
 

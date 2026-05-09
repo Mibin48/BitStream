@@ -2,6 +2,8 @@ import React from 'react';
 import { motion, useScroll } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { Logo } from '@/components/ui/Logo';
+
 
 const Navbar = () => {
   const { scrollY } = useScroll();
@@ -54,12 +56,12 @@ const Navbar = () => {
         }}
       >
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5">
-          <div className="w-9 h-9 bg-gradient-to-br from-purple-600 to-purple-500 border-[2.5px] border-black flex items-center justify-center rounded-lg">
-            <span className="text-white font-black text-lg">B</span>
-          </div>
-          <span className="font-black text-xl tracking-tight hidden sm:block">BitStream</span>
+        <Link to="/" className="flex items-center gap-3">
+          <Logo size={40} />
+
+          <span className="font-black text-2xl tracking-tighter hidden sm:block uppercase">BitStream</span>
         </Link>
+
 
         {/* Menu */}
         <div className="hidden lg:flex items-center gap-1">

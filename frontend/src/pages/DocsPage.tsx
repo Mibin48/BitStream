@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Download, Code, Server, MessageSquare, Video, Folders, Shield, GitPullRequest, Play, ArrowRight, Terminal, Monitor, Zap, MessageCircle } from 'lucide-react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import InfiniteGridBackground from '../components/ui/InfiniteGridBackground';
+
 
 const DocsPage = () => {
   const [activeLang, setActiveLang] = useState('javascript');
@@ -52,12 +54,14 @@ func main() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-black font-sans selection:bg-purple-500 selection:text-white relative overflow-x-hidden">
-      {/* Global Blueprint Grid Overlay */}
-      <div className="fixed inset-0 opacity-[0.05] pointer-events-none z-50"
-        style={{
-          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }} />
+      {/* Global Dynamic Infinite Grid Background */}
+      <InfiniteGridBackground opacity={0.1} className="z-50" />
+
+
+
+
+
+
       <Navbar />
 
       {/* Hero + Search */}

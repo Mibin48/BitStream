@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { 
-  Users, UserPlus, Shield, Mail, History, Settings, 
-  Search, MoreVertical, MessageSquare, Video, Clock, 
-  CheckCircle2, Plus, Trash2, X, Download, UserCog, 
+import {
+  Users, UserPlus, Shield, Mail, History, Settings,
+  Search, MoreVertical, MessageSquare, Video, Clock,
+  CheckCircle2, Plus, Trash2, X, Download, UserCog,
   Lock, AlertCircle, UserCheck, Globe, Zap, Filter
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -58,7 +58,7 @@ const WorkloadSparkline = ({ data, color }: { data: number[], color: string }) =
   const height = 24;
   const width = 60;
   const step = width / (data.length - 1);
-  
+
   const points = data.map((val, i) => {
     const x = i * step;
     const y = height - (val / max) * height;
@@ -123,9 +123,9 @@ const TeamPage = () => {
 
   const filteredMembers = members.filter(m => {
     const matchesDept = activeDept === 'All' || m.dept === activeDept;
-    const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         m.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         m.email.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      m.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      m.email.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesDept && matchesSearch;
   });
 
@@ -138,7 +138,7 @@ const TeamPage = () => {
 
   return (
     <div className="flex-1 flex flex-col overflow-y-auto px-8 pt-4 pb-8 gap-6 relative custom-scrollbar">
-      
+
       {/* Decorative background blobs */}
       <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-purple-200/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-lime-100/30 rounded-full blur-[100px] pointer-events-none" />
@@ -160,16 +160,16 @@ const TeamPage = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <motion.button 
-            whileHover={{ scale: 1.05, y: -2 }} 
+          <motion.button
+            whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             className="flex items-center gap-2 bg-white/60 backdrop-blur-md text-slate-700 font-black text-sm px-6 py-4 rounded-2xl shadow-sm border border-white/80 hover:bg-white transition-all"
           >
             <Download size={18} />
             Export Data
           </motion.button>
-          <motion.button 
-            whileHover={{ scale: 1.05, y: -2 }} 
+          <motion.button
+            whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowInviteModal(true)}
             className="flex items-center gap-3 bg-[#c5f06c] text-[#1a1a1a] font-black text-sm px-7 py-4 rounded-2xl shadow-xl shadow-lime-500/20 border-b-4 border-[#a3c959] active:border-b-0 transition-all"
@@ -201,7 +201,7 @@ const TeamPage = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 bg-white/40 backdrop-blur-xl rounded-[3.5rem] border border-white/60 shadow-2xl shadow-slate-200/50 flex flex-col relative z-10">
-        
+
         {/* Navigation Tabs */}
         <div className="px-10 pt-8 border-b border-white/40 flex items-center justify-between shrink-0">
           <div className="flex gap-10">
@@ -215,14 +215,13 @@ const TeamPage = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2.5 pb-8 text-base font-black transition-all relative ${
-                  activeTab === tab.id ? 'text-[#8b8abc]' : 'text-slate-400 hover:text-slate-600'
-                }`}
+                className={`flex items-center gap-2.5 pb-8 text-base font-black transition-all relative ${activeTab === tab.id ? 'text-[#8b8abc]' : 'text-slate-400 hover:text-slate-600'
+                  }`}
               >
                 <tab.icon size={20} strokeWidth={2.5} />
                 {tab.label}
                 {activeTab === tab.id && (
-                  <motion.div 
+                  <motion.div
                     layoutId="activeTab"
                     className="absolute bottom-0 left-0 right-0 h-1.5 bg-[#8b8abc] rounded-t-full"
                   />
@@ -235,7 +234,7 @@ const TeamPage = () => {
         <div className="flex-1 flex flex-col p-10">
           <AnimatePresence mode="wait">
             {activeTab === 'members' && (
-              <motion.div 
+              <motion.div
                 key="members"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -249,21 +248,20 @@ const TeamPage = () => {
                       <button
                         key={dept}
                         onClick={() => setActiveDept(dept)}
-                        className={`px-7 py-3.5 rounded-2xl text-xs font-black transition-all whitespace-nowrap border-2 ${
-                          activeDept === dept 
-                          ? 'bg-[#8b8abc] border-[#8b8abc] text-white shadow-lg shadow-purple-900/20 scale-105' 
-                          : 'bg-white/60 border-transparent text-slate-500 hover:bg-white hover:border-slate-100 shadow-sm'
-                        }`}
+                        className={`px-7 py-3.5 rounded-2xl text-xs font-black transition-all whitespace-nowrap border-2 ${activeDept === dept
+                            ? 'bg-[#8b8abc] border-[#8b8abc] text-white shadow-lg shadow-purple-900/20 scale-105'
+                            : 'bg-white/60 border-transparent text-slate-500 hover:bg-white hover:border-slate-100 shadow-sm'
+                          }`}
                       >
                         {dept}
                       </button>
                     ))}
                   </div>
-                  
+
                   <div className="w-full lg:w-96 relative group">
                     <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#8b8abc] transition-colors" size={20} strokeWidth={3} />
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       placeholder="Search for a teammate..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
@@ -285,23 +283,21 @@ const TeamPage = () => {
                         className="bg-white rounded-[3rem] border border-slate-100 p-8 shadow-sm hover:shadow-2xl transition-all group relative overflow-hidden flex flex-col"
                       >
                         {/* Status Glow */}
-                        <div className={`absolute top-0 right-0 w-32 h-32 blur-[80px] opacity-10 pointer-events-none ${
-                          member.status === 'online' ? 'bg-[#c5f06c]' : 
-                          member.status === 'away' ? 'bg-[#f0e66c]' : 'bg-slate-300'
-                        }`} />
+                        <div className={`absolute top-0 right-0 w-32 h-32 blur-[80px] opacity-10 pointer-events-none ${member.status === 'online' ? 'bg-[#c5f06c]' :
+                            member.status === 'away' ? 'bg-[#f0e66c]' : 'bg-slate-300'
+                          }`} />
 
                         <div className="flex justify-between items-start mb-8 relative z-10">
                           <div className="relative">
-                            <motion.div 
+                            <motion.div
                               whileHover={{ rotate: 10, scale: 1.1 }}
                               className={`w-20 h-20 ${member.color} rounded-[2rem] flex items-center justify-center font-black text-3xl text-white shadow-xl border-4 border-white`}
                             >
                               {member.avatar}
                             </motion.div>
-                            <div className={`absolute -bottom-2 -right-2 w-7 h-7 rounded-full border-[6px] border-white shadow-md ${
-                              member.status === 'online' ? 'bg-[#c5f06c]' : 
-                              member.status === 'away' ? 'bg-[#f0e66c]' : 'bg-slate-300'
-                            }`} />
+                            <div className={`absolute -bottom-2 -right-2 w-7 h-7 rounded-full border-[6px] border-white shadow-md ${member.status === 'online' ? 'bg-[#c5f06c]' :
+                                member.status === 'away' ? 'bg-[#f0e66c]' : 'bg-slate-300'
+                              }`} />
                           </div>
                           <div className="flex items-center gap-4">
                             <WorkloadSparkline data={member.workload} color={member.color} />
@@ -315,10 +311,9 @@ const TeamPage = () => {
                           <h3 className="font-black text-slate-900 text-xl tracking-tight truncate mb-1">{member.name}</h3>
                           <p className="text-xs font-black text-slate-400 uppercase tracking-wider mb-4">{member.role}</p>
                           <div className="flex items-center gap-3">
-                            <span className={`text-xs font-black px-3 py-1.5 rounded-xl uppercase tracking-wider ${
-                              member.roleType === 'Admin' ? 'bg-purple-100 text-purple-600' :
-                              member.roleType === 'Member' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'
-                            }`}>{member.roleType}</span>
+                            <span className={`text-xs font-black px-3 py-1.5 rounded-xl uppercase tracking-wider ${member.roleType === 'Admin' ? 'bg-purple-100 text-purple-600' :
+                                member.roleType === 'Member' ? 'bg-blue-100 text-blue-600' : 'bg-orange-100 text-orange-600'
+                              }`}>{member.roleType}</span>
                             <span className="w-1.5 h-1.5 rounded-full bg-slate-200" />
                             <span className="text-xs font-black text-slate-400 uppercase tracking-wider bg-slate-50 px-3 py-1.5 rounded-xl">{member.dept}</span>
                           </div>
@@ -340,13 +335,13 @@ const TeamPage = () => {
                         </p>
 
                         <div className="grid grid-cols-2 gap-4 mt-auto relative z-10">
-                          <button 
+                          <button
                             onClick={() => navigate('/messages')}
                             className="flex items-center justify-center gap-2.5 py-4 bg-slate-900 text-white rounded-2xl font-black text-xs hover:bg-[#8b8abc] transition-all shadow-lg shadow-slate-900/10 active:scale-95"
                           >
                             <MessageSquare size={16} strokeWidth={2.5} /> Message
                           </button>
-                          <button 
+                          <button
                             onClick={() => navigate('/video-call')}
                             className="flex items-center justify-center gap-2.5 py-4 bg-[#c5f06c] text-[#1a1a1a] rounded-2xl font-black text-xs hover:shadow-xl hover:shadow-lime-500/20 transition-all border-b-4 border-[#a3c959] active:border-b-0 active:scale-95"
                           >
@@ -361,7 +356,7 @@ const TeamPage = () => {
             )}
 
             {activeTab === 'roles' && (
-              <motion.div 
+              <motion.div
                 key="roles"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -389,7 +384,7 @@ const TeamPage = () => {
                           <Users size={12} /> {role.memberCount} Active
                         </span>
                       </div>
-                      
+
                       <div className="space-y-6 flex-1">
                         <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-[0.25em] flex items-center gap-2">
                           <Lock size={12} /> Permissions Set
@@ -419,7 +414,7 @@ const TeamPage = () => {
             )}
 
             {activeTab === 'invites' && (
-              <motion.div 
+              <motion.div
                 key="invites"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -449,9 +444,8 @@ const TeamPage = () => {
                           <td className="px-10 py-7 text-sm font-bold text-slate-600">{invite.invitedBy}</td>
                           <td className="px-10 py-7 text-sm font-bold text-slate-500">{invite.dateSent}</td>
                           <td className="px-10 py-7">
-                            <span className={`px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider shadow-sm ${
-                              invite.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
-                            }`}>
+                            <span className={`px-4 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider shadow-sm ${invite.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'
+                              }`}>
                               {invite.status}
                             </span>
                           </td>
@@ -470,7 +464,7 @@ const TeamPage = () => {
             )}
 
             {activeTab === 'activity' && (
-              <motion.div 
+              <motion.div
                 key="activity"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -503,7 +497,7 @@ const TeamPage = () => {
             )}
 
             {activeTab === 'settings' && (
-              <motion.div 
+              <motion.div
                 key="settings"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -600,11 +594,11 @@ const TeamPage = () => {
                           <p className="text-lg font-black text-[#8b8abc]">48 <span className="text-slate-300 font-bold">/ 100</span></p>
                         </div>
                         <div className="h-4 w-full bg-slate-100 rounded-full overflow-hidden p-1 shadow-inner">
-                          <motion.div 
+                          <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: '48%' }}
                             transition={{ duration: 1.5, ease: "easeOut" }}
-                            className="h-full bg-gradient-to-r from-[#8b8abc] to-purple-400 rounded-full shadow-[0_0_15px_rgba(139,138,188,0.5)]" 
+                            className="h-full bg-gradient-to-r from-[#8b8abc] to-purple-400 rounded-full shadow-[0_0_15px_rgba(139,138,188,0.5)]"
                           />
                         </div>
                         <div className="mt-4 p-4 bg-purple-50 rounded-2xl border border-dashed border-purple-200 flex items-center gap-3">
@@ -630,9 +624,9 @@ const TeamPage = () => {
       <AnimatePresence>
         {showInviteModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowInviteModal(false)}
               className="absolute inset-0 bg-slate-900/40 backdrop-blur-md"
@@ -653,15 +647,15 @@ const TeamPage = () => {
                     <X size={32} />
                   </button>
                 </div>
-                
+
                 <div className="space-y-8">
                   <div>
                     <label className="block text-xs font-black text-slate-400 uppercase tracking-[0.25em] mb-3 px-2">Work Email Address</label>
                     <div className="relative group">
                       <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#8b8abc] transition-colors" size={24} />
-                      <input 
-                        type="email" 
-                        placeholder="teammate@company.com" 
+                      <input
+                        type="email"
+                        placeholder="teammate@company.com"
                         className="w-full pl-16 pr-8 py-5 bg-slate-50 border-2 border-transparent rounded-[2rem] text-base font-bold focus:outline-none focus:border-[#8b8abc] focus:bg-white transition-all shadow-inner"
                       />
                     </div>
@@ -704,8 +698,8 @@ const TeamPage = () => {
                   </div>
                 </div>
 
-                <motion.button 
-                  whileHover={{ scale: 1.02, y: -2 }} 
+                <motion.button
+                  whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   className="w-full mt-12 py-6 bg-slate-900 text-white font-black text-base rounded-[2.5rem] shadow-2xl shadow-slate-900/20 border-b-8 border-black active:border-b-0 transition-all flex items-center justify-center gap-3"
                 >

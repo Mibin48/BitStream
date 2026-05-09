@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import { Logo } from '../components/ui/Logo';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, ArrowRight, Zap, MessageSquare, Video, Shield, Calendar, Bell, Moon, Mail, X } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
+
+
 
 const OnboardingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -37,26 +41,24 @@ const OnboardingPage = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans flex flex-col selection:bg-blue-500 selection:text-white relative overflow-x-hidden">
-      {/* Global Blueprint Grid Overlay */}
-      <div className="fixed inset-0 opacity-[0.03] pointer-events-none z-50"
-        style={{
-          backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-          backgroundSize: '40px 40px'
-        }} />
+      {/* Global Dynamic Infinite Grid Background */}
+
+
+
+
+
+
+
 
       {/* Top Nav */}
       <header className="flex items-center justify-between px-8 py-5 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center gap-10">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="flex items-center justify-center">
-              <div className="grid grid-cols-3 gap-1">
-                {[...Array(9)].map((_, i) => (
-                  <div key={i} className={`w-1.5 h-1.5 rounded-full ${i === 4 ? 'bg-transparent' : 'bg-slate-900'}`} />
-                ))}
-              </div>
-            </div>
+            <Logo size={32} />
+
             <span className="font-extrabold text-slate-900 text-xl tracking-tight uppercase">BitStream</span>
           </Link>
+
           <nav className="hidden md:flex gap-8 text-sm font-bold text-slate-600">
             <a href="#" className="hover:text-slate-900 transition-colors">Product</a>
             <a href="#" className="hover:text-slate-900 transition-colors">Help</a>
